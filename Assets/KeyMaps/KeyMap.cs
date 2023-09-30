@@ -62,6 +62,15 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""a82f324f-876d-428b-af59-fff985edfceb"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""action"": ""MoveRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11cb3316-6da7-4035-a278-3ed208d3ad39"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +140,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         m_Controls_MoveDown = m_Controls.FindAction("MoveDown", throwIfNotFound: true);
         m_Controls_MoveRight = m_Controls.FindAction("MoveRight", throwIfNotFound: true);
         m_Controls_MoveLeft = m_Controls.FindAction("MoveLeft", throwIfNotFound: true);
+        m_Controls_MousePosition = m_Controls.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,6 +206,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_MoveDown;
     private readonly InputAction m_Controls_MoveRight;
     private readonly InputAction m_Controls_MoveLeft;
+    private readonly InputAction m_Controls_MousePosition;
     public struct ControlsActions
     {
         private @KeyMap m_Wrapper;
@@ -193,6 +215,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         public InputAction @MoveDown => m_Wrapper.m_Controls_MoveDown;
         public InputAction @MoveRight => m_Wrapper.m_Controls_MoveRight;
         public InputAction @MoveLeft => m_Wrapper.m_Controls_MoveLeft;
+        public InputAction @MousePosition => m_Wrapper.m_Controls_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -214,6 +237,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @MoveLeft.started += instance.OnMoveLeft;
             @MoveLeft.performed += instance.OnMoveLeft;
             @MoveLeft.canceled += instance.OnMoveLeft;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -230,6 +256,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @MoveLeft.started -= instance.OnMoveLeft;
             @MoveLeft.performed -= instance.OnMoveLeft;
             @MoveLeft.canceled -= instance.OnMoveLeft;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -253,5 +282,6 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         void OnMoveDown(InputAction.CallbackContext context);
         void OnMoveRight(InputAction.CallbackContext context);
         void OnMoveLeft(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

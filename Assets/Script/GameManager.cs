@@ -5,11 +5,5 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    public void MoveUp(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
-        {
-            //Force
-        }
-    }
+    
 }
