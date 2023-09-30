@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void MoveUp(InputAction.CallbackContext ctx)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (ctx.performed)
+        {
+            //Force
+        }
     }
 }
