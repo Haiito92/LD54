@@ -12,12 +12,12 @@ public class PlayerController : MonoBehaviour
         get { return _speed; }
         set { _speed = value; }
     }
-    private Vector2 movement;
-    private Rigidbody2D rb;
+    private Vector2 _movement;
+    private Rigidbody2D _rb;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
     //private void OnMovement (InputValue value)
     //{
@@ -28,16 +28,16 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.performed)
         {
-            movement = ctx.ReadValue<Vector2>();
+            _movement = ctx.ReadValue<Vector2>();
         }else if (ctx.canceled)
         {
-            movement = Vector2.zero;
+            _movement = Vector2.zero;
         }
     }
 
     private void FixedUpdate ()
     {
-        rb.AddForce (movement * _speed);
+        _rb.AddForce (_movement * _speed);
     }
 
 
