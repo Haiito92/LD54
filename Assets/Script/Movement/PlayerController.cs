@@ -6,9 +6,14 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] float _speed;
+    [SerializeField] private float _speed;
+    public float Speed
+    {
+        get { return _speed; }
+        set { _speed = value; }
+    }
     private Vector2 movement;
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     private void Awake()
     {
