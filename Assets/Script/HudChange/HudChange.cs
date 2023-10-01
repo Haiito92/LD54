@@ -25,6 +25,8 @@ public class HudChange : MonoBehaviour
     }
     [SerializeField] private bool _isHudOn = false;
     [SerializeField] private GameObject _Hud = null;
+    [SerializeField] private bool _isSetting = false;
+    [SerializeField] private GameObject _settingScene = null;
     [SerializeField] private string _sceneName;
 
     // Start is called before the first frame update
@@ -106,5 +108,36 @@ public class HudChange : MonoBehaviour
         this._looseScene.SetActive(false);
         _isLoosed = false;
         _isWin = false;
+    }
+
+    public void GoSetting()
+    {
+        this._startScene.SetActive(false);
+        this._pauseScene.SetActive(false);
+        this._settingScene.SetActive(true);
+        _isSetting = true;
+    }
+
+    public void returnOldMenu()
+    {
+        if (_isPaused == true) 
+        {
+            this._pauseScene.SetActive(true);
+            this._settingScene.SetActive(false);
+            _isSetting = false;
+        } else if (_isStart == true)
+        {
+            this._startScene.SetActive(true);
+            this._settingScene.SetActive(false);
+            _isSetting = false;
+        } else {
+            this._settingScene.SetActive(false);
+            _isSetting = false;
+        }
+    }
+
+    public void ApplicationQuit()
+    {
+        Application.Quit();
     }
 }
