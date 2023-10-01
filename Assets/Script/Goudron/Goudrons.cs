@@ -14,6 +14,10 @@ public class Goudrons : MonoBehaviour
     void Start()
     {
         _normalSpeed = _playerController.Speed;
+        if (_slow <= 0)
+        {
+            Debug.LogWarning("Slow value must be positive");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
