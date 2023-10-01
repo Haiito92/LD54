@@ -15,6 +15,7 @@ public class Drone : MonoBehaviour
     [SerializeField] private bool _isDroneRapid;
 
     [SerializeField] private Light2D _droneLight;
+    [SerializeField] private LightFlickering _lightFlickering;  
     [SerializeField, Range(0, 20)] private float _basicLightIntensity;
     [SerializeField, Range(0, 30)] private float _basicLightOuterRadius;
     [SerializeField, Range(0, 20)] private float _flashLightIntensity;
@@ -32,8 +33,6 @@ public class Drone : MonoBehaviour
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _droneLight = GetComponentInChildren<Light2D>();
         _droneBasicLightCoroutine = DroneBasicLight();
         _droneFlashLightCoroutine = DroneFlashLight();
     }
@@ -75,9 +74,9 @@ public class Drone : MonoBehaviour
     private IEnumerator DroneFlashLight()
     {
         Debug.Log("FlashLight");
+
         FlashLight();
         yield return new WaitForSeconds(_flashLightDuration);
-        ResetLight();
         DestroyDrone(_droneFlashLightCoroutine);
     }
 
@@ -90,12 +89,16 @@ public class Drone : MonoBehaviour
 
     private void FlashLight()
     {
+        
         _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
+        _droneLight.intensity = _flashLightIntensity;
     }
-    private void ResetLight()
-    {
-        _droneLight.pointLightOuterRadius = _basicLightOuterRadius;
-    }
+    //private void ResetLight()
+    //{
+    //    _droneLight.pointLightOuterRadius = _basicLightOuterRadius;
+    //    _droneLight.intensity = _basicLightIntensity;
+
+    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -103,11 +106,11 @@ public class Drone : MonoBehaviour
         _droneLight.pointLightInnerAngle = 360;
         _droneLight.pointLightOuterAngle = 360;
 
-        if (_isDroneRapid)
+        if (_isDroneRapid && !_isDroneBasic)
         {
             StartCoroutine(_droneFlashLightCoroutine);
         }
-        else if (_isDroneBasic)
+        else if (_isDroneBasic && !_isDroneRapid)
         {
             StartCoroutine(_droneBasicLightCoroutine);
         }

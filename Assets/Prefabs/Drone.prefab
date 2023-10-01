@@ -167,14 +167,15 @@ MonoBehaviour:
   _rapidSpeed: 1000
   _isDroneBasic: 0
   _isDroneRapid: 0
-  _droneLight: {fileID: 0}
+  _droneLight: {fileID: 8402843816308411434}
+  _lightFlickering: {fileID: 3722202021146769571}
   _basicLightIntensity: 0.35
   _basicLightOuterRadius: 3.75
   _flashLightIntensity: 1
   _flashLightOuterRadius: 14
-  _basicLightDuration: 6
+  _basicLightDuration: 3
   _flashLightDuration: 0.8
-  _rb: {fileID: 0}
+  _rb: {fileID: 2478013984177094762}
   _playerAim: {fileID: 0}
 --- !u!1 &2473479837179184346
 GameObject:
