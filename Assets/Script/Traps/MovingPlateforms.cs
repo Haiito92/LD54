@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MovingPlateforms : MonoBehaviour
 {
-    [SerializeField] bool _isActivated;
-    [SerializeField] Transform _arrivingPoint;
-    [SerializeField] float _plateformSpeed;
-    Vector3 _basePosition;
+    public bool _isActivated;
+    [SerializeField] private Transform _arrivingPoint;
+    [SerializeField] private float _plateformSpeed;
+    private Vector3 _basePosition;
 
     private void Start()
     {

@@ -4,42 +4,42 @@ using UnityEngine;
 
 public class ConveyorBelt : MonoBehaviour
 {
-    [SerializeField] GameObject player;
-    [SerializeField] float conveyorBeltSpeed;
-    [SerializeField] bool goUp;
-    [SerializeField] bool goDown;
-    [SerializeField] bool goRight;
-    [SerializeField] bool goLeft;
-    Rigidbody2D rb;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private float _conveyorBeltSpeed;
+    [SerializeField] private bool _goUp;
+    [SerializeField] private bool _goDown;
+    [SerializeField] private bool _goRight;
+    [SerializeField] private bool _goLeft;
+    private Rigidbody2D _rb;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject == player)
+        if(collision.gameObject == _player)
         {
             //player.GetComponent<PlayerController>().enabled = false;
-            rb = player.GetComponent<Rigidbody2D>();
+            _rb = _player.GetComponent<Rigidbody2D>();
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject == _player)
         {
-            if (goUp)
+            if (_goUp)
             {
-                rb.AddForce(Vector2.up * conveyorBeltSpeed);
+                _rb.AddForce(Vector2.up * _conveyorBeltSpeed);
             }
-            else if (goDown)
+            else if (_goDown)
             {
-                rb.AddForce(-Vector2.up * conveyorBeltSpeed);
+                _rb.AddForce(-Vector2.up *_conveyorBeltSpeed);
             }  
-            else if (goRight)
+            else if (_goRight)
             {
-                rb.AddForce(Vector2.right * conveyorBeltSpeed);
+                _rb.AddForce(Vector2.right * _conveyorBeltSpeed);
             }
-            else if (goLeft)
+            else if (_goLeft)
             {
-                rb.AddForce(-Vector2.right * conveyorBeltSpeed);
+                _rb.AddForce(-Vector2.right * _conveyorBeltSpeed);
             }
         }
     }
