@@ -5,11 +5,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerAim : MonoBehaviour
 {
+    #region Properties
+    public static bool IsDroneOut
+    {
+        get { return _isDroneOut; }
+        set { _isDroneOut = value; }
+    }
+    #endregion
+
     private Vector2 _playerLookDir; 
     private float _mouseAngle;
 
-
+    [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
+    [SerializeField] private static bool _isDroneOut;
 
     public void GetMousePosition(InputAction.CallbackContext ctx)
     {
@@ -28,9 +37,11 @@ public class PlayerAim : MonoBehaviour
     {
         if (ctx.started)
         {
-            if(_drone.IsDroneOut == false)
+            if(_isDroneOut == false)
             {
+                _isDroneOut = true;
                 Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+                _drone = Instantiate(_dronePrefab, transform.position, transform.rotation).GetComponent<Drone>();
                 _drone.Move(mouseWorldPos, transform.rotation);
             }    
         }
@@ -40,9 +51,11 @@ public class PlayerAim : MonoBehaviour
     {
         if (ctx.started)
         {
-            if(_drone.IsDroneOut == false)
+            if(_isDroneOut == false)
             {
+                _isDroneOut = true;
                 Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+                _drone = Instantiate(_dronePrefab, transform.position, transform.rotation).GetComponent<Drone>();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
             }
         }
