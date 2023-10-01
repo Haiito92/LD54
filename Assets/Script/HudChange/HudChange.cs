@@ -14,6 +14,8 @@ public class HudChange : MonoBehaviour
     [SerializeField] private bool _isLoosed = false;
     [SerializeField] private GameObject _looseScene = null;
     [SerializeField] private string _sceneName;
+    [SerializeField] private GameObject _Hud = null;
+    [SerializeField] private bool _isHudOn = false;
 
     // Start is called before the first frame update
     void Start()
