@@ -5,27 +5,28 @@ using UnityEngine.Rendering.Universal;
 
 public class LightDetection : MonoBehaviour
 {
-    private GameObject _player;
-    private Light2D _light;
+    private GameObject _collideTarget;
+    private GameObject[] _lights;
 
     private float _distance;
 
     void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
-        _light = GetComponent<Light2D>();
+        _collideTarget = gameObject;
+        _lights = GameObject.FindGameObjectsWithTag("Lights");
     }
 
     // Update is called once per frame
     void Update()
     {
-        _distance = Vector2.Distance(_player.transform.position, _light.transform.position);
-        if (_distance < _light.pointLightOuterRadius)
+        foreach(GameObject light in _lights)
         {
-            Debug.Log("Safe");
-        } else
-        {
-            Debug.Log("Unsafe");
+            _distance = Vector2.Distance(_collideTarget.transform.position, light.GetComponent<Light2D>().transform.position);
+            if (_distance < light.GetComponent<Light2D>().pointLightOuterRadius)
+            {
+                Debug.Log("Safe");
+                break;
+            }
         }
     }
 }
