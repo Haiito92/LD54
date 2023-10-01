@@ -115,7 +115,7 @@ public class PlayerAim : MonoBehaviour
 
     private IEnumerator LightGoingOff()
     {
-        while (_selfLight.intensity > 0.01)
+        while (_selfLight.intensity >= _intensityLoss)
         {
             yield return new WaitForSeconds(1 / _lossRate);
             _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, 0, float.MaxValue);
