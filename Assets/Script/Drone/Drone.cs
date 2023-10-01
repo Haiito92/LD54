@@ -23,6 +23,7 @@ public class Drone : MonoBehaviour
     [SerializeField] private float _flashLightDuration;
 
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private PlayerAim _playerAim;
 
     #region IEnumeratorsHolders
     private IEnumerator _droneBasicLightCoroutine;
@@ -35,6 +36,11 @@ public class Drone : MonoBehaviour
         _droneLight = GetComponentInChildren<Light2D>();
         _droneBasicLightCoroutine = DroneBasicLight();
         _droneFlashLightCoroutine = DroneFlashLight();
+    }
+
+    public void GetPlayerAim(PlayerAim playerAim)
+    {
+        _playerAim = playerAim;
     }
 
     private void SendDrone(Vector2 targetPos, Quaternion rotation, float speed)
@@ -72,14 +78,13 @@ public class Drone : MonoBehaviour
         FlashLight();
         yield return new WaitForSeconds(_flashLightDuration);
         ResetLight();
-
         DestroyDrone(_droneFlashLightCoroutine);
     }
 
     private void DestroyDrone(IEnumerator coroutine)
     {
         StopCoroutine(coroutine);
-        PlayerAim.IsDroneOut = false;
+        _playerAim.IsDroneOut = false;
         Destroy(gameObject);
     }
 

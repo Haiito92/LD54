@@ -2,23 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerAim : MonoBehaviour
 {
     #region Properties
-    public static bool IsDroneOut
+    public bool IsDroneOut
     {
         get { return _isDroneOut; }
-        set { _isDroneOut = value; }
+        set 
+        { 
+            _isDroneOut = value; 
+            if( !_isDroneOut)
+            {
+                _selfLight.enabled = true;
+                _selfLight.intensity = _selfLightIntensity;
+            }
+        }
     }
     #endregion
 
     private Vector2 _playerLookDir; 
     private float _mouseAngle;
 
+    private Light2D _selfLight;
+    [SerializeField, Range(0, 20)] private float _selfLightIntensity;
+    [SerializeField, Range(0, 30)] private float _selfLightOuterRadius;
+
     [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
-    [SerializeField] private static bool _isDroneOut;
+    [SerializeField] private bool _isDroneOut;
+
+    private void Awake()
+    {
+        _selfLight= GetComponentInChildren<Light2D>();
+    }
 
     public void GetMousePosition(InputAction.CallbackContext ctx)
     {
@@ -33,15 +51,27 @@ public class PlayerAim : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, _mouseAngle);
     }
 
-    public void LaunchDrone(InputAction.CallbackContext ctx)
+    private Vector2 InitLaunch()
+    {
+        _isDroneOut = true;
+        _selfLight.intensity = 0;
+        _selfLight.enabled = false;
+
+        Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+
+        _drone = Instantiate(_dronePrefab, transform.position, transform.rotation).GetComponent<Drone>();
+        _drone.GetPlayerAim(this);
+
+        return mouseWorldPos;
+    }
+
+    public void LaunchDroneBasic(InputAction.CallbackContext ctx)
     {
         if (ctx.started)
         {
             if(_isDroneOut == false)
             {
-                _isDroneOut = true;
-                Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
-                _drone = Instantiate(_dronePrefab, transform.position, transform.rotation).GetComponent<Drone>();
+                Vector2 mouseWorldPos = InitLaunch();
                 _drone.Move(mouseWorldPos, transform.rotation);
             }    
         }
@@ -53,9 +83,7 @@ public class PlayerAim : MonoBehaviour
         {
             if(_isDroneOut == false)
             {
-                _isDroneOut = true;
-                Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
-                _drone = Instantiate(_dronePrefab, transform.position, transform.rotation).GetComponent<Drone>();
+                Vector2 mouseWorldPos = InitLaunch();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
             }
         }
