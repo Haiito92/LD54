@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -22,12 +23,18 @@ public class PlayerAim : MonoBehaviour
     }
     #endregion
 
+    #region IEnumeratorHolders
+    private IEnumerator _lightGoingOff;
+    #endregion
+
     private Vector2 _playerLookDir; 
     private float _mouseAngle;
 
     private Light2D _selfLight;
     [SerializeField, Range(0, 20)] private float _selfLightIntensity;
     [SerializeField, Range(0, 30)] private float _selfLightOuterRadius;
+    [SerializeField] private float _intensityLoss;
+    [SerializeField] private float _lossRate;
 
     [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
@@ -54,7 +61,6 @@ public class PlayerAim : MonoBehaviour
     private Vector2 InitLaunch()
     {
         _isDroneOut = true;
-        _selfLight.intensity = 0;
         _selfLight.enabled = false;
 
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
@@ -72,6 +78,7 @@ public class PlayerAim : MonoBehaviour
             if(_isDroneOut == false)
             {
                 Vector2 mouseWorldPos = InitLaunch();
+                StartLightGoingOff();
                 _drone.Move(mouseWorldPos, transform.rotation);
             }    
         }
@@ -84,8 +91,31 @@ public class PlayerAim : MonoBehaviour
             if(_isDroneOut == false)
             {
                 Vector2 mouseWorldPos = InitLaunch();
+                StartLightGoingOff();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
             }
         }
+    }
+
+    private void StartLightGoingOff()
+    {
+        _lightGoingOff = LightGoingOff();
+        StartCoroutine(_lightGoingOff);
+    }
+
+    private IEnumerator LightGoingOff()
+    {
+        while(_selfLightIntensity < 0.01)
+        {
+            yield return new WaitForSeconds(1 / _lossRate);
+            _selfLightIntensity = Mathf.Clamp(_selfLightIntensity -= _intensityLoss, 0, float.MaxValue);
+        }
+         _selfLightIntensity = 0;
+        StopLightGoingOff();
+    }
+
+    private void StopLightGoingOff()
+    {
+        StopCoroutine(_lightGoingOff);
     }
 }
