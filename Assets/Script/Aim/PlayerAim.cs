@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -16,7 +17,7 @@ public class PlayerAim : MonoBehaviour
             _isDroneOut = value; 
             if( !_isDroneOut)
             {
-                _selfLight.enabled = true;
+                StopCoroutine(_lightGoingOff);
                 _selfLight.intensity = _selfLightIntensity;
             }
         }
@@ -45,6 +46,14 @@ public class PlayerAim : MonoBehaviour
         _selfLight= GetComponentInChildren<Light2D>();
     }
 
+    #region EditorMethods
+    //private bool ValidateSelfLightIntensity(float selfLightIntensity)
+    //{
+    //    _selfLight.intensity= _selfLightIntensity;
+    //    return true;
+    //}
+    #endregion
+
     public void GetMousePosition(InputAction.CallbackContext ctx)
     {
         Vector3 mousePos = ctx.ReadValue<Vector2>();
@@ -61,7 +70,6 @@ public class PlayerAim : MonoBehaviour
     private Vector2 InitLaunch()
     {
         _isDroneOut = true;
-        _selfLight.enabled = false;
 
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
 
@@ -105,12 +113,12 @@ public class PlayerAim : MonoBehaviour
 
     private IEnumerator LightGoingOff()
     {
-        while(_selfLightIntensity < 0.01)
+        while (_selfLight.intensity > 0.01)
         {
             yield return new WaitForSeconds(1 / _lossRate);
-            _selfLightIntensity = Mathf.Clamp(_selfLightIntensity -= _intensityLoss, 0, float.MaxValue);
+            _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, 0, float.MaxValue);
         }
-         _selfLightIntensity = 0;
+        _selfLight.intensity = 0;
         StopLightGoingOff();
     }
 
