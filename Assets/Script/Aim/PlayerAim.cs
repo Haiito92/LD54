@@ -18,6 +18,7 @@ public class PlayerAim : MonoBehaviour
             if( !_isDroneOut)
             {
                 StopCoroutine(_lightGoingOff);
+                _selfLight.gameObject.tag = _selfLightTag;
                 _selfLight.intensity = _selfLightIntensity;
             }
         }
@@ -32,6 +33,7 @@ public class PlayerAim : MonoBehaviour
     private float _mouseAngle;
 
     private Light2D _selfLight;
+    [SerializeField, Tag] private string _selfLightTag;
     [SerializeField, Range(0, 20)] private float _selfLightIntensity;
     [SerializeField, Range(0, 30)] private float _selfLightOuterRadius;
     [SerializeField] private float _intensityLoss;
@@ -119,6 +121,7 @@ public class PlayerAim : MonoBehaviour
             _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, 0, float.MaxValue);
         }
         _selfLight.intensity = 0;
+        _selfLight.gameObject.tag = "Untagged";
         StopLightGoingOff();
     }
 

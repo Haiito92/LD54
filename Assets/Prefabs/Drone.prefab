@@ -165,9 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 200
   _rapidSpeed: 1000
-  _isDroneBasic: 0
-  _isDroneRapid: 0
   _droneLight: {fileID: 8402843816308411434}
+  _droneLightTag: Lights
   _lightFlickering: {fileID: 3722202021146769571}
   _basicLightIntensity: 0.35
   _basicLightOuterRadius: 3.75
@@ -356,6 +355,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2643f32788473df4b9e8f315a7782921, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minRadiusValue: 3.5
-  _maxRadiusValue: 3.75
   _secondsBetweenFlicks: 0.05

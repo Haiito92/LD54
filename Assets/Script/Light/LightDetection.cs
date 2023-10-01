@@ -18,7 +18,8 @@ public class LightDetection : MonoBehaviour
 
     void Update()
     {
-        foreach(GameObject light in _lights)
+        _lights = GameObject.FindGameObjectsWithTag("Lights");
+        foreach (GameObject light in _lights)
         {
             _distance = Vector2.Distance(_collideTarget.transform.position, light.GetComponent<Light2D>().transform.position);
             if (_distance < light.GetComponent<Light2D>().pointLightOuterRadius)
