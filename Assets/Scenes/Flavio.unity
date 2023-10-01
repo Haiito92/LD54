@@ -227,9 +227,9 @@ Transform:
   m_LocalScale: {x: 2.43346, y: 2.43346, z: 2.43346}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 181948083}
   - {fileID: 247626039}
   - {fileID: 1284294280}
+  - {fileID: 181948083}
   m_Father: {fileID: 1192773388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &181948082
@@ -317,7 +317,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133684800}
         m_TargetAssemblyTypeName: HudChange, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: ResetCurrentScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -584,7 +584,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133684800}
         m_TargetAssemblyTypeName: HudChange, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -966,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &534730435
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1828,9 +1828,9 @@ Transform:
   m_LocalScale: {x: 2.43346, y: 2.43346, z: 2.43346}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 201922227}
   - {fileID: 671636677}
   - {fileID: 43649775}
+  - {fileID: 201922227}
   m_Father: {fileID: 1192773388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909565436
@@ -1861,7 +1861,7 @@ RectTransform:
   m_GameObject: {fileID: 909565436}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 4.9661393}
-  m_LocalScale: {x: 0.41093755, y: 0.41093755, z: 0.41093755}
+  m_LocalScale: {x: 0.41093758, y: 0.41093758, z: 0.41093758}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2127802699}
@@ -1869,7 +1869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 381.99997, y: 187.99995}
+  m_AnchoredPosition: {x: 382, y: 187.99995}
   m_SizeDelta: {x: 729.063, y: 136.6993}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &909565438
@@ -1918,7 +1918,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1133684800}
         m_TargetAssemblyTypeName: HudChange, Assembly-CSharp
-        m_MethodName: Reset
+        m_MethodName: ResetCurrentScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2290,11 +2290,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 534730435}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 859.5, y: -200.24}
-  m_SizeDelta: {x: 200.996, y: 62.258}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -0.001953125, y: -250.00003}
+  m_SizeDelta: {x: 200.99597, y: 62.258}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1108729810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2370,9 +2370,9 @@ MonoBehaviour:
   _winScene: {fileID: 74512093}
   _isLoosed: 0
   _looseScene: {fileID: 1235871933}
-  _sceneName: Flavio
-  _Hud: {fileID: 0}
   _isHudOn: 0
+  _Hud: {fileID: 534730434}
+  _sceneName: Flavio
 --- !u!4 &1133684801
 Transform:
   m_ObjectHideFlags: 0
@@ -2734,9 +2734,9 @@ Transform:
   m_LocalScale: {x: 2.43346, y: 2.43346, z: 2.43346}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 909565437}
   - {fileID: 1321766422}
   - {fileID: 635234843}
+  - {fileID: 909565437}
   m_Father: {fileID: 1192773388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1284294279
@@ -3763,15 +3763,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 626098824789388222, guid: ab6b700f1d7df7a4d9698afd7d39cc97, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.91
+      value: 18.54
       objectReference: {fileID: 0}
     - target: {fileID: 626098824789388222, guid: ab6b700f1d7df7a4d9698afd7d39cc97, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7
+      value: -10.11
       objectReference: {fileID: 0}
     - target: {fileID: 626098824789388222, guid: ab6b700f1d7df7a4d9698afd7d39cc97, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2.66
       objectReference: {fileID: 0}
     - target: {fileID: 626098824789388222, guid: ab6b700f1d7df7a4d9698afd7d39cc97, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3945,12 +3945,12 @@ BoxCollider2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 6634272902523427378}
-  - {fileID: 1198469410}
   - {fileID: 1029630364}
   - {fileID: 1569651088}
   - {fileID: 1618785821}
   - {fileID: 601557567}
+  - {fileID: 1198469410}
+  - {fileID: 6634272902523427378}
   - {fileID: 1338439567}
   - {fileID: 1133684801}
   - {fileID: 1192773388}

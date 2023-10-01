@@ -11,19 +11,31 @@ public class HudChange : MonoBehaviour
     [SerializeField] private GameObject _startScene = null;
     [SerializeField] private bool _isWin = false;
     [SerializeField] private GameObject _winScene = null;
+    public bool IsWin
+    {
+        get { return _isWin; }
+        set { _isWin = value; }
+    }
     [SerializeField] private bool _isLoosed = false;
     [SerializeField] private GameObject _looseScene = null;
-    [SerializeField] private string _sceneName;
-    [SerializeField] private GameObject _Hud = null;
+    public bool IsLoose
+    {
+        get { return _isLoosed; }
+        set { _isLoosed = value; }
+    }
     [SerializeField] private bool _isHudOn = false;
+    [SerializeField] private GameObject _Hud = null;
+    [SerializeField] private string _sceneName;
 
     // Start is called before the first frame update
     void Start()
     {
         this._pauseScene.SetActive(false);
-        this._startScene.SetActive(false);
+        this._startScene.SetActive(true); 
         this._winScene.SetActive(false);
         this._looseScene.SetActive(false);
+        this._Hud.SetActive(false);
+        Time.timeScale = 0f;
         _isStart = true;
     }
 
@@ -51,17 +63,34 @@ public class HudChange : MonoBehaviour
 
                 }
             }
+            if (_isLoosed == true)
+            {
+                Debug.Log("xcaca");
+                this._looseScene.SetActive(true);
+                Time.timeScale = 0f;
+            }
+
+            if (_isWin == true)
+            {
+                this._winScene.SetActive(true);
+                Time.timeScale = 0f;
+            }
+        }
     }
+
+    public void StartGame() 
+    {
+        this._startScene.SetActive(false);
+        _isStart = false;
+        Time.timeScale = 1f;
     }
 
     public void ResetCurrentScene()
     {
-        Debug.Log("reset");
+        // Debug.Log("reset");
         SceneManager.LoadScene(this._sceneName);
-        this._startScene.SetActive(false);
         this._winScene.SetActive(false);
         this._looseScene.SetActive(false);
-        _isStart = false;
         _isLoosed = false;
         _isWin = false;
     }
