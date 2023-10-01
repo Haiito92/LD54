@@ -37,22 +37,13 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""LeftClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""3c58857d-b474-404d-a788-1c0bc1157c5d"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""3758f3d9-4881-4e16-9107-b6e17fcb6530"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RightClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""3c987e1a-25ac-4778-a999-c1233b27e3ec"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -68,26 +59,59 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""ea311e31-3120-4efd-ab3c-2397085bfd31"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""name"": ""ZQSD"",
+                    ""id"": ""da5d01df-a5c9-48a8-8368-e4081d12d220"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftClick"",
-                    ""isComposite"": false,
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""3ad1b737-e020-4708-a420-e9e5ffc4767b"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""name"": ""up"",
+                    ""id"": ""097d8676-9ad4-4966-ba19-002ead243ecf"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RightClick"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""0ed16666-7226-4d86-9d8f-e88c2e85f36c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""75585e9a-61fa-497b-a238-46ab5408650f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9aecb90f-ca0f-44c3-9f81-24a8d4185436"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -97,8 +121,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         // Controls
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
         m_Controls_MousePosition = m_Controls.FindAction("MousePosition", throwIfNotFound: true);
-        m_Controls_LeftClick = m_Controls.FindAction("LeftClick", throwIfNotFound: true);
-        m_Controls_RightClick = m_Controls.FindAction("RightClick", throwIfNotFound: true);
+        m_Controls_Movement = m_Controls.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,15 +184,13 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Controls;
     private List<IControlsActions> m_ControlsActionsCallbackInterfaces = new List<IControlsActions>();
     private readonly InputAction m_Controls_MousePosition;
-    private readonly InputAction m_Controls_LeftClick;
-    private readonly InputAction m_Controls_RightClick;
+    private readonly InputAction m_Controls_Movement;
     public struct ControlsActions
     {
         private @KeyMap m_Wrapper;
         public ControlsActions(@KeyMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @MousePosition => m_Wrapper.m_Controls_MousePosition;
-        public InputAction @LeftClick => m_Wrapper.m_Controls_LeftClick;
-        public InputAction @RightClick => m_Wrapper.m_Controls_RightClick;
+        public InputAction @Movement => m_Wrapper.m_Controls_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -182,12 +203,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
-            @LeftClick.started += instance.OnLeftClick;
-            @LeftClick.performed += instance.OnLeftClick;
-            @LeftClick.canceled += instance.OnLeftClick;
-            @RightClick.started += instance.OnRightClick;
-            @RightClick.performed += instance.OnRightClick;
-            @RightClick.canceled += instance.OnRightClick;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -195,12 +213,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
-            @LeftClick.started -= instance.OnLeftClick;
-            @LeftClick.performed -= instance.OnLeftClick;
-            @LeftClick.canceled -= instance.OnLeftClick;
-            @RightClick.started -= instance.OnRightClick;
-            @RightClick.performed -= instance.OnRightClick;
-            @RightClick.canceled -= instance.OnRightClick;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -221,7 +236,6 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
     public interface IControlsActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnLeftClick(InputAction.CallbackContext context);
-        void OnRightClick(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }
