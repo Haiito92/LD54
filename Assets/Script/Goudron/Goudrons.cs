@@ -7,7 +7,7 @@ public class Goudrons : MonoBehaviour
 {
     PlayerController playerController;
     [SerializeField] private GameObject player;
-    [SerializeField] float slow;
+    [SerializeField] private float slow;
     private float _normalSpeed;
 
     void Start()
