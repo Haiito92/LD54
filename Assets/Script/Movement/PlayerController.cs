@@ -14,9 +14,20 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    private void OnMovement (InputValue value)
+    //private void OnMovement (InputValue value)
+    //{
+    //    movement = value.Get<Vector2> ();
+    //}
+
+    public void Movement(InputAction.CallbackContext ctx)
     {
-        movement = value.Get<Vector2> ();
+        if (ctx.performed)
+        {
+            movement = ctx.ReadValue<Vector2>();
+        }else if (ctx.canceled)
+        {
+            movement = Vector2.zero;
+        }
     }
 
     private void FixedUpdate ()

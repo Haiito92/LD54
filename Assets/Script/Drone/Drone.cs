@@ -14,20 +14,22 @@ public class Drone : MonoBehaviour
     [SerializeField] private bool _isDroneOut;
     [SerializeField] private bool _isDroneOutRapid;
 
-    [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Light2D _droneLight;
+    [SerializeField, Range(0,1)] private float _lightIntensity;
+
+    [SerializeField] private Rigidbody2D _rb;
 
     #region IEnumeratorsHolders
-    private IEnumerator _droneBasicLight;
-    private IEnumerator _droneFlashLight;
+    private IEnumerator _droneBasicLightCoroutine;
+    private IEnumerator _droneFlashLightCoroutine;
     #endregion
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _droneLight = GetComponentInChildren<Light2D>();
-        _droneBasicLight = DroneBasicLight();
-        _droneFlashLight = DroneFlashLight();
+        _droneBasicLightCoroutine = DroneBasicLight();
+        _droneFlashLightCoroutine = DroneFlashLight();
     }
 
     private void GetDirection(Vector2 targetPos, Quaternion rotation, float speed)
@@ -42,6 +44,7 @@ public class Drone : MonoBehaviour
     {
         _isDroneOut = true;
         GetDirection(targetPos, rotation, _speed);
+        //_droneLight.intensity = 
     }
 
     public void RapidMove(Vector2 targetPos, Quaternion rotation)
@@ -71,11 +74,11 @@ public class Drone : MonoBehaviour
 
         if (_isDroneOutRapid && _isDroneOut)
         {
-            StartCoroutine(_droneFlashLight);
+            StartCoroutine(_droneFlashLightCoroutine);
         }
         else if (!_isDroneOutRapid && _isDroneOut)
         {
-            StartCoroutine(_droneBasicLight);
+            StartCoroutine(_droneBasicLightCoroutine);
         }
     }
 
