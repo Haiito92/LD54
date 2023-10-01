@@ -31,7 +31,7 @@ public class PlayerAim : MonoBehaviour
             if(_drone.IsDroneOut == false)
             {
                 Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
-                _drone.Move(mouseWorldPos);
+                _drone.Move(mouseWorldPos, transform.rotation);
             }    
         }
     }
@@ -43,7 +43,7 @@ public class PlayerAim : MonoBehaviour
             if(_drone.IsDroneOut == false)
             {
                 Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
-                _drone.RapidMove(mouseWorldPos);
+                _drone.RapidMove(mouseWorldPos, transform.rotation);
             }
         }
     }
