@@ -16,7 +16,6 @@ public class LightDetection : MonoBehaviour
         _lights = GameObject.FindGameObjectsWithTag("Lights");
     }
 
-    // Update is called once per frame
     void Update()
     {
         foreach(GameObject light in _lights)
