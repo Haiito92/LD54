@@ -20,6 +20,11 @@ public class PlayerAim : MonoBehaviour
                 StopCoroutine(_lightGoingOff);
                 _selfLight.gameObject.tag = _selfLightTag;
                 _selfLight.intensity = _selfLightIntensity;
+                _anim.SetBool("IsDroneOut", _isDroneOut);
+            }
+            else
+            {
+                _anim.SetBool("IsDroneOut", _isDroneOut);
             }
         }
     }
@@ -43,9 +48,12 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] private Drone _drone;
     [SerializeField] private bool _isDroneOut;
 
+    [SerializeField] private Animator _anim;
+
     private void Awake()
     {
         _selfLight= GetComponentInChildren<Light2D>();
+        _anim = GetComponent<Animator>();
     }
 
     #region EditorMethods
@@ -64,14 +72,14 @@ public class PlayerAim : MonoBehaviour
 
         _playerLookDir = Worldpos - transform.position;
 
-        _mouseAngle = Vector2.SignedAngle(Vector2.right, _playerLookDir);
+        _mouseAngle = Vector2.SignedAngle(Vector2.up, _playerLookDir);
 
         transform.eulerAngles = new Vector3(0, 0, _mouseAngle);
     }
 
     private Vector2 InitLaunch()
     {
-        _isDroneOut = true;
+        IsDroneOut = true;
 
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
 
