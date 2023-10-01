@@ -6,18 +6,24 @@ using UnityEngine.Rendering.Universal;
 public class Drone : MonoBehaviour
 {
     #region Properties
-    public bool IsDroneOut => _isDroneOut;
+    public bool IsDroneOut => _isDroneBasic;
     #endregion
 
     [SerializeField] private float _speed;
     [SerializeField] private float _rapidSpeed;
-    [SerializeField] private bool _isDroneOut;
-    [SerializeField] private bool _isDroneOutRapid;
+    [SerializeField] private bool _isDroneBasic;
+    [SerializeField] private bool _isDroneRapid;
 
     [SerializeField] private Light2D _droneLight;
-    [SerializeField, Range(0,1)] private float _lightIntensity;
+    [SerializeField, Range(0, 20)] private float _basicLightIntensity;
+    [SerializeField, Range(0, 30)] private float _basicLightOuterRadius;
+    [SerializeField, Range(0, 20)] private float _flashLightIntensity;
+    [SerializeField, Range(0, 30)] private float _flashLightOuterRadius;
+    [SerializeField] private float _basicLightDuration;
+    [SerializeField] private float _flashLightDuration;
 
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private PlayerAim _playerAim;
 
     #region IEnumeratorsHolders
     private IEnumerator _droneBasicLightCoroutine;
@@ -32,38 +38,63 @@ public class Drone : MonoBehaviour
         _droneFlashLightCoroutine = DroneFlashLight();
     }
 
-    private void GetDirection(Vector2 targetPos, Quaternion rotation, float speed)
+    public void GetPlayerAim(PlayerAim playerAim)
+    {
+        _playerAim = playerAim;
+    }
+
+    private void SendDrone(Vector2 targetPos, Quaternion rotation, float speed)
     {
         transform.rotation = rotation;
         Vector2 direction = targetPos - _rb.position;
         direction.Normalize();
         _rb.AddForce(direction * speed);
+        _droneLight.intensity = _basicLightIntensity;
     }
 
     public void Move(Vector2 targetPos, Quaternion rotation)
     {
-        _isDroneOut = true;
-        GetDirection(targetPos, rotation, _speed);
-        //_droneLight.intensity = 
+        _isDroneBasic = true;
+        SendDrone(targetPos, rotation, _speed); 
     }
 
     public void RapidMove(Vector2 targetPos, Quaternion rotation)
     {
-        _isDroneOut = true;
-        _isDroneOutRapid = true;
-        GetDirection(targetPos, rotation, _rapidSpeed);
+        _isDroneRapid = true;
+        SendDrone(targetPos, rotation, _rapidSpeed);
     }
 
     private IEnumerator DroneBasicLight()
     {
         Debug.Log("BasicLight");
-        yield return null;
+        yield return new WaitForSeconds(_basicLightDuration);
+        DestroyDrone(_droneBasicLightCoroutine);
+
     }
 
     private IEnumerator DroneFlashLight()
     {
         Debug.Log("FlashLight");
-        yield return null;
+        FlashLight();
+        yield return new WaitForSeconds(_flashLightDuration);
+        ResetLight();
+        DestroyDrone(_droneFlashLightCoroutine);
+    }
+
+    private void DestroyDrone(IEnumerator coroutine)
+    {
+        StopCoroutine(coroutine);
+        _playerAim.IsDroneOut = false;
+        Destroy(gameObject);
+    }
+
+    private void FlashLight()
+    {
+        _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
+    }
+    private void ResetLight()
+    {
+        _droneLight.pointLightOuterRadius = _basicLightOuterRadius;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -72,11 +103,11 @@ public class Drone : MonoBehaviour
         _droneLight.pointLightInnerAngle = 360;
         _droneLight.pointLightOuterAngle = 360;
 
-        if (_isDroneOutRapid && _isDroneOut)
+        if (_isDroneRapid)
         {
             StartCoroutine(_droneFlashLightCoroutine);
         }
-        else if (!_isDroneOutRapid && _isDroneOut)
+        else if (_isDroneBasic)
         {
             StartCoroutine(_droneBasicLightCoroutine);
         }
