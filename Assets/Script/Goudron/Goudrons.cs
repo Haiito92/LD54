@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,30 +6,29 @@ using UnityEngine;
 
 public class Goudrons : MonoBehaviour
 {
-    PlayerController playerController;
-    [SerializeField] private GameObject player;
-    [SerializeField] private float slow;
+    [SerializeField] private PlayerController _playerController;
+    [SerializeField] private float _slow;
     private float _normalSpeed;
+    [SerializeField, Tag] private string _playerTag;
 
     void Start()
     {
-        playerController = player.GetComponent<PlayerController>();
-        _normalSpeed = playerController.Speed;
+        _normalSpeed = _playerController.Speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == _playerTag)
         {
-            playerController.Speed = playerController.Speed / slow;
+            _playerController.Speed = _playerController.Speed / _slow;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.tag == _playerTag)
         {
-            playerController.Speed = _normalSpeed;
+            _playerController.Speed = _normalSpeed;
         }
     }
 }
