@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerDie : MonoBehaviour
 {
+    public static bool _isOnPlatform;
+
     public void Die()
     {
         Destroy(gameObject);

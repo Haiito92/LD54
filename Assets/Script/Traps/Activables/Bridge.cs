@@ -5,21 +5,14 @@ using UnityEngine;
 public class Bridge : Activable
 {
     //public bool _isActivated;
-    [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private SpriteRenderer _sr;
+    [SerializeField] private GameObject _bridge;
+    [SerializeField] private GameObject _bridgeVoid;
 
-    // Update is called once per frame
-    void Update()
+    public override void Activate()
     {
-        if (_isActivated)
-        {
-            _sr.enabled = true;
-            _rb.simulated = true;
-        }
-        else
-        {
-            _sr.enabled = false;
-            _rb.simulated = false;
-        }
+        base.Activate();
+
+        _bridgeVoid.SetActive(false);
+        _bridge.SetActive(true);
     }
 }
