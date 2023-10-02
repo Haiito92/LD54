@@ -14,6 +14,8 @@ public class Drone : MonoBehaviour
     private bool _isDroneBasic;
     private bool _isDroneRapid;
 
+    private bool _audioSwitch = true;
+
     private AudioManager _audioManag;
 
     [SerializeField] private Light2D _droneLight;
@@ -127,6 +129,23 @@ public class Drone : MonoBehaviour
     public void SoundPlayIdle()
     {
         _audioManag.PlaySFX(_audioManag.DroneIdle);
+    }
+
+    public void SoundPlayMain()
+    {
+        if (_audioSwitch)
+        {
+            _audioManag.PlaySFX(_audioManag.DroneIdle);
+            _audioSwitch = false;
+            StartCoroutine(AudioSwitchDroneBehaviour());
+
+        }
+    }
+
+    IEnumerator AudioSwitchDroneBehaviour()
+    {
+        yield return new WaitForSeconds(4.0f);
+        _audioSwitch = true;
     }
 
     public void SoundPlayMove()
