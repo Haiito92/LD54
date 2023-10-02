@@ -28,6 +28,12 @@ public class PlayerAim : MonoBehaviour
             }
         }
     }
+
+    public bool CanCallbackDrone
+    {
+        get { return _canCallbackDrone; }
+        set { _canCallbackDrone = value; }
+    }
     #endregion
 
     #region IEnumeratorHolders
@@ -47,11 +53,16 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
     [SerializeField] private bool _isDroneOut;
+    private bool _canCallbackDrone;
+
+    [SerializeField] private int _maxNumberOfFlash;
+    [SerializeField] private int _numberOfFlash;
 
     [SerializeField] private Animator _anim;
 
     private void Awake()
     {
+        _numberOfFlash = _maxNumberOfFlash;
         _selfLight= GetComponentInChildren<Light2D>();
         _anim = GetComponent<Animator>();
     }
@@ -106,12 +117,22 @@ public class PlayerAim : MonoBehaviour
     {
         if (ctx.started)
         {
-            if(_isDroneOut == false)
+            if(_isDroneOut == false && _numberOfFlash > 0)
             {
                 Vector2 mouseWorldPos = InitLaunch();
                 StartLightGoingOff();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
+                _numberOfFlash -= 1;
             }
+        }
+    }
+
+    public void CallBackDrone(InputAction.CallbackContext ctx)
+    {
+        if(ctx.started && _canCallbackDrone)
+        {
+            _drone.DestroyDrone();
+            _canCallbackDrone = false;
         }
     }
 
