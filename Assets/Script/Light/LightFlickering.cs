@@ -6,8 +6,8 @@ using UnityEngine.Rendering.Universal;
 
 public class LightFlickering : MonoBehaviour
 {
-    [SerializeField] float _minRadiusValue;
-    [SerializeField] float _maxRadiusValue;
+    private float _minRadiusValue;
+    private float _maxRadiusValue;
     [SerializeField] float _secondsBetweenFlicks;
 
     [SerializeField] IEnumerator _lightFlicker;
@@ -20,7 +20,10 @@ public class LightFlickering : MonoBehaviour
     private Light2D _light;
     void Start()
     {
+
         _light = GetComponent<Light2D>();
+        _maxRadiusValue = _light.pointLightOuterRadius;
+        _minRadiusValue = _maxRadiusValue - (_maxRadiusValue / 10);
         StartCoroutine(_lightFlicker);
     }
 
@@ -28,11 +31,17 @@ public class LightFlickering : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(0.01f,_secondsBetweenFlicks));
         _light.pointLightOuterRadius = Random.Range(_minRadiusValue, _maxRadiusValue);
-        StartCoroutine(_lightFlicker);
+        CycleLightFlicker();
     }
 
     public void StopLightFlicker()
     {
         StopCoroutine(_lightFlicker);
+    }
+    public void CycleLightFlicker()
+    {
+        StopCoroutine(_lightFlicker);
+        _lightFlicker = LightFlicker();
+        StartCoroutine(_lightFlicker);
     }
 }

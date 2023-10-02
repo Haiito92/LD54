@@ -1,5 +1,7 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -15,28 +17,52 @@ public class PlayerAim : MonoBehaviour
             _isDroneOut = value; 
             if( !_isDroneOut)
             {
-                _selfLight.enabled = true;
+                StopCoroutine(_lightGoingOff);
+                _selfLight.gameObject.tag = _selfLightTag;
                 _selfLight.intensity = _selfLightIntensity;
+                _anim.SetBool("IsDroneOut", _isDroneOut);
+            }
+            else
+            {
+                _anim.SetBool("IsDroneOut", _isDroneOut);
             }
         }
     }
+    #endregion
+
+    #region IEnumeratorHolders
+    private IEnumerator _lightGoingOff;
     #endregion
 
     private Vector2 _playerLookDir; 
     private float _mouseAngle;
 
     private Light2D _selfLight;
+    [SerializeField, Tag] private string _selfLightTag;
     [SerializeField, Range(0, 20)] private float _selfLightIntensity;
     [SerializeField, Range(0, 30)] private float _selfLightOuterRadius;
+    [SerializeField] private float _intensityLoss;
+    [SerializeField] private float _lossRate;
 
     [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
     [SerializeField] private bool _isDroneOut;
 
+    [SerializeField] private Animator _anim;
+
     private void Awake()
     {
         _selfLight= GetComponentInChildren<Light2D>();
+        _anim = GetComponent<Animator>();
     }
+
+    #region EditorMethods
+    //private bool ValidateSelfLightIntensity(float selfLightIntensity)
+    //{
+    //    _selfLight.intensity= _selfLightIntensity;
+    //    return true;
+    //}
+    #endregion
 
     public void GetMousePosition(InputAction.CallbackContext ctx)
     {
@@ -46,16 +72,14 @@ public class PlayerAim : MonoBehaviour
 
         _playerLookDir = Worldpos - transform.position;
 
-        _mouseAngle = Vector2.SignedAngle(Vector2.right, _playerLookDir);
+        _mouseAngle = Vector2.SignedAngle(Vector2.up, _playerLookDir);
 
         transform.eulerAngles = new Vector3(0, 0, _mouseAngle);
     }
 
     private Vector2 InitLaunch()
     {
-        _isDroneOut = true;
-        _selfLight.intensity = 0;
-        _selfLight.enabled = false;
+        IsDroneOut = true;
 
         Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
 
@@ -72,6 +96,7 @@ public class PlayerAim : MonoBehaviour
             if(_isDroneOut == false)
             {
                 Vector2 mouseWorldPos = InitLaunch();
+                StartLightGoingOff();
                 _drone.Move(mouseWorldPos, transform.rotation);
             }    
         }
@@ -84,8 +109,32 @@ public class PlayerAim : MonoBehaviour
             if(_isDroneOut == false)
             {
                 Vector2 mouseWorldPos = InitLaunch();
+                StartLightGoingOff();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
             }
         }
+    }
+
+    private void StartLightGoingOff()
+    {
+        _lightGoingOff = LightGoingOff();
+        StartCoroutine(_lightGoingOff);
+    }
+
+    private IEnumerator LightGoingOff()
+    {
+        while (_selfLight.intensity >= _intensityLoss)
+        {
+            yield return new WaitForSeconds(1 / _lossRate);
+            _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, 0, float.MaxValue);
+        }
+        _selfLight.intensity = 0;
+        _selfLight.gameObject.tag = "Untagged";
+        StopLightGoingOff();
+    }
+
+    private void StopLightGoingOff()
+    {
+        StopCoroutine(_lightGoingOff);
     }
 }

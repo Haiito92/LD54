@@ -11,10 +11,11 @@ public class Drone : MonoBehaviour
 
     [SerializeField] private float _speed;
     [SerializeField] private float _rapidSpeed;
-    [SerializeField] private bool _isDroneBasic;
-    [SerializeField] private bool _isDroneRapid;
+    private bool _isDroneBasic;
+    private bool _isDroneRapid;
 
     [SerializeField] private Light2D _droneLight;
+    [SerializeField, Tag] private string _droneLightTag;
     [SerializeField] private LightFlickering _lightFlickering;  
     [SerializeField, Range(0, 20)] private float _basicLightIntensity;
     [SerializeField, Range(0, 30)] private float _basicLightOuterRadius;
@@ -93,16 +94,11 @@ public class Drone : MonoBehaviour
         _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
         _droneLight.intensity = _flashLightIntensity;
     }
-    //private void ResetLight()
-    //{
-    //    _droneLight.pointLightOuterRadius = _basicLightOuterRadius;
-    //    _droneLight.intensity = _basicLightIntensity;
-
-    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _rb.velocity = Vector2.zero;
+        _droneLight.tag = _droneLightTag;
         _droneLight.pointLightInnerAngle = 360;
         _droneLight.pointLightOuterAngle = 360;
 
