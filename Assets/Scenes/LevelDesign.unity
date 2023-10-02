@@ -40659,12 +40659,16 @@ PrefabInstance:
       value: Sensor 1
       objectReference: {fileID: 0}
     - target: {fileID: 4624526293753884766, guid: 695ff159074ec024ba3ad87b8b40b336, type: 3}
+      propertyPath: _fillRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624526293753884766, guid: 695ff159074ec024ba3ad87b8b40b336, type: 3}
       propertyPath: _activable
       value: 
       objectReference: {fileID: 368793409}
     - target: {fileID: 4624526293753884766, guid: 695ff159074ec024ba3ad87b8b40b336, type: 3}
       propertyPath: _energyToActivate
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8035703516132660575, guid: 695ff159074ec024ba3ad87b8b40b336, type: 3}
       propertyPath: m_LocalPosition.x
