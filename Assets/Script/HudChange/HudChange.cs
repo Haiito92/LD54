@@ -37,8 +37,14 @@ public class HudChange : MonoBehaviour
         this._winScene.SetActive(false);
         this._looseScene.SetActive(false);
         this._Hud.SetActive(false);
+        this._settingScene.SetActive(false);
         Time.timeScale = 0f;
         _isStart = true;
+        _isHudOn = false;
+        _isSetting = false;
+        _isWin = false;
+        _isLoosed = false;
+        _isPaused = false;
     }
 
     // Update is called once per frame
