@@ -5,16 +5,35 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-
-    [SerializeField] private float _speed;
+    #region Properties
     public float Speed
     {
         get { return _speed; }
-        set { _speed = value; }
+        set 
+        { 
+            _speed = value;
+        }
     }
-    private Vector2 _movement;
+
+    #endregion
+
+
+    [SerializeField] private float _speed;
+    private Vector2 _movementVector;
+    public Vector2 MovementVector
+    {
+        get { return _movementVector; }
+        set 
+        { 
+            _movementVector = value;
+        }
+    }
+
+
     private Rigidbody2D _rb;
 
+    [SerializeField] private Transform _legs;
+    [SerializeField] private Animator _legsAnimator;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -28,17 +47,17 @@ public class PlayerController : MonoBehaviour
     {
         if (ctx.performed)
         {
-            _movement = ctx.ReadValue<Vector2>();
+            MovementVector = ctx.ReadValue<Vector2>();
         }else if (ctx.canceled)
         {
-            _movement = Vector2.zero;
+            MovementVector = Vector2.zero;
         }
     }
 
     private void FixedUpdate ()
     {
-        _rb.AddForce (_movement * _speed);
+        Vector2 movementForce = MovementVector * _speed;
+        _rb.AddForce (movementForce);
+        _legsAnimator.SetFloat("Speed", movementForce.magnitude);
     }
-
-
 }
