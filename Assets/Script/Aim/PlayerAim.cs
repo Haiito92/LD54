@@ -34,6 +34,16 @@ public class PlayerAim : MonoBehaviour
         get { return _canCallbackDrone; }
         set { _canCallbackDrone = value; }
     }
+
+    public int NumberOfFlash
+    {
+        get { return _numberOfFlash; }
+        set 
+        { 
+            _numberOfFlash = value;
+            HudChange.Instance.NbFlashText.text = _numberOfFlash.ToString();
+        }
+    }
     #endregion
 
     #region IEnumeratorHolders
@@ -62,7 +72,7 @@ public class PlayerAim : MonoBehaviour
 
     private void Awake()
     {
-        _numberOfFlash = _maxNumberOfFlash;
+        NumberOfFlash = _maxNumberOfFlash;
         _selfLight= GetComponentInChildren<Light2D>();
         _anim = GetComponent<Animator>();
     }
@@ -122,7 +132,7 @@ public class PlayerAim : MonoBehaviour
                 Vector2 mouseWorldPos = InitLaunch();
                 StartLightGoingOff();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
-                _numberOfFlash -= 1;
+                NumberOfFlash -= 1;
             }
         }
     }

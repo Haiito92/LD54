@@ -1,31 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class HudChange : MonoBehaviour
 {
+    #region Properties
+    public bool IsWin
+    {
+        get { return _isWin; }
+        set { _isWin = value; }
+    }
+    public bool IsLoose
+    {
+        get { return _isLoosed; }
+        set { _isLoosed = value; }
+    }
+
+    public TextMeshProUGUI NbFlashText 
+    {
+        get { return _nbFlashText; } 
+        set { _nbFlashText = value; }
+    }
+    #endregion
+
     [SerializeField] private bool _isPaused = false;
     [SerializeField] private GameObject _pauseScene = null;
     [SerializeField] private bool _isStart = false;
     [SerializeField] private GameObject _startScene = null;
     [SerializeField] private bool _isWin = false;
     [SerializeField] private GameObject _winScene = null;
-    public bool IsWin
-    {
-        get { return _isWin; }
-        set { _isWin = value; }
-    }
     [SerializeField] private bool _isLoosed = false;
     [SerializeField] private GameObject _looseScene = null;
-    public bool IsLoose
-    {
-        get { return _isLoosed; }
-        set { _isLoosed = value; }
-    }
+
     [SerializeField] private bool _isHudOn = false;
     [SerializeField] private GameObject _Hud = null;
+    [SerializeField] private TextMeshProUGUI _nbFlashText;
+
     [SerializeField] private bool _isSetting = false;
     [SerializeField] private GameObject _settingScene = null;
     [SerializeField] private string _sceneName;
@@ -33,9 +46,20 @@ public class HudChange : MonoBehaviour
 
     // Start is called before the first frame update
 
+    private static HudChange _instance;
+    public static HudChange Instance => _instance;
 
     private void Awake()
     {
+        if(_instance != null && _instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _instance = this;
+        }
+        
         //_audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
     void Start()

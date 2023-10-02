@@ -43,6 +43,7 @@ public class LightDetection : MonoBehaviour
                 _isPlayerSafe = false;
                 if(_monsters.Length == 0)
                 {
+                    Debug.Log("_monsters.Length");
                     monsterSpawnLocation(_distance, light);
                 }
             }
