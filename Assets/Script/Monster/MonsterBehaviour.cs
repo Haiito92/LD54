@@ -9,10 +9,13 @@ public class MonsterBehaviour : MonoBehaviour
     private Vector2 direction;
     [SerializeField] float moveSpeed;
 
+    [SerializeField] private PlayerDie _playerDie;
+
     private void Start()
     {
         _rb = this.GetComponent<Rigidbody2D>();
         _target = GameObject.Find("Player").GetComponent<Transform>();
+        _playerDie = GameObject.Find("Player").GetComponent<PlayerDie>(); 
     }
     void Update()
     {
@@ -36,6 +39,7 @@ public class MonsterBehaviour : MonoBehaviour
         if (collision.tag == "Player")
         {
             Debug.Log("==========ur dead===========");
+            _playerDie.Die();
             Destroy(gameObject);
         }
     }
