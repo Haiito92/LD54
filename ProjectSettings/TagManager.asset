@@ -6,7 +6,8 @@ TagManager:
   tags:
   - Lights
   - Sensor
-  - Audio
+  - Monster
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Drone
   - 
   - 
   - 
@@ -43,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Monster
+    uniqueID: 3747519723
     locked: 0
