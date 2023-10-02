@@ -720,6 +720,8 @@ MonoBehaviour:
   _dronePrefab: {fileID: 932932873442940146, guid: 4f841174f51e4124ea98a5ef9a3073f5, type: 3}
   _drone: {fileID: 0}
   _isDroneOut: 0
+  _maxNumberOfFlash: 2
+  _numberOfFlash: 0
   _anim: {fileID: 0}
 --- !u!114 &272025138
 MonoBehaviour:
