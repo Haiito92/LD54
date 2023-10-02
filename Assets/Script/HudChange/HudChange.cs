@@ -60,10 +60,10 @@ public class HudChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isStart == false && _isLoosed == false && _isWin == false)
+        if (_isStart == false && _isLoosed == false && _isWin == false && _isSetting == false)
         {
 
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (this._isPaused)
                 {
@@ -97,7 +97,6 @@ public class HudChange : MonoBehaviour
 
         if (_isLoosed == true)
         {
-            Debug.Log("xcaca");
             this._looseScene.SetActive(true);
             Time.timeScale = 0f;
         }
@@ -141,7 +140,7 @@ public class HudChange : MonoBehaviour
         {
             this._pauseScene.SetActive(true);
             this._settingScene.SetActive(false);
-            _isSetting = true;
+            _isSetting = false;
         } else if (_isStart == true)
         {
             this._startScene.SetActive(true);
