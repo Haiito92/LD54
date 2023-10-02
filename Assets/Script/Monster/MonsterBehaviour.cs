@@ -16,7 +16,7 @@ public class MonsterBehaviour : MonoBehaviour
     void Update()
     {
         direction = _target.position - transform.position;
-        transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
+        transform.rotation = Quaternion.FromToRotation(Vector3.right,direction);
         direction.Normalize();
     }
     private void FixedUpdate()

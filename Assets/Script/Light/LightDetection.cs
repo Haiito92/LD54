@@ -8,6 +8,8 @@ public class LightDetection : MonoBehaviour
     private GameObject _collideTarget;
     private GameObject[] _lights;
 
+    [SerializeField] private GameObject _monster;
+
     private float _distance;
 
     void Start()
@@ -25,6 +27,7 @@ public class LightDetection : MonoBehaviour
             if (_distance < light.GetComponent<Light2D>().pointLightOuterRadius)
             {
                 Debug.Log("Safe");
+
                 break;
             }
         }
