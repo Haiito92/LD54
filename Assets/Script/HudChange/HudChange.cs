@@ -124,7 +124,7 @@ public class HudChange : MonoBehaviour
         {
             this._pauseScene.SetActive(true);
             this._settingScene.SetActive(false);
-            _isSetting = false;
+            _isSetting = true;
         } else if (_isStart == true)
         {
             this._startScene.SetActive(true);
