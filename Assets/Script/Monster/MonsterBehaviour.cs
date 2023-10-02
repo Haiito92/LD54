@@ -11,11 +11,17 @@ public class MonsterBehaviour : MonoBehaviour
 
     [SerializeField] private PlayerDie _playerDie;
 
+    private AudioManager _audioManag;
+
+    public bool _audioSwitch = true;
+
     private void Start()
     {
+        _audioManag = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         _rb = this.GetComponent<Rigidbody2D>();
         _target = GameObject.Find("Player").GetComponent<Transform>();
-        _playerDie = GameObject.Find("Player").GetComponent<PlayerDie>(); 
+        _playerDie = GameObject.Find("Player").GetComponent<PlayerDie>();
+        _audioSwitch = true;
     }
     void Update()
     {
@@ -42,5 +48,29 @@ public class MonsterBehaviour : MonoBehaviour
             _playerDie.Die();
             Destroy(gameObject);
         }
+    }
+
+    public void SoundPlay()
+    {
+        _audioManag.PlaySFX(_audioManag.MonsterMove);
+    }
+
+    public void SoundPlayMain()
+    {
+        if (_audioSwitch)
+        {
+            _audioManag.PlaySFX(_audioManag.Monster);
+            Debug.Log("Why");
+            _audioSwitch = false;
+            StartCoroutine(AudioSwitchBehaviour());
+
+        }
+    }
+
+    IEnumerator AudioSwitchBehaviour()
+    {
+        yield return new WaitForSeconds(2.0f);
+        Debug.Log("No");
+        _audioSwitch = true;
     }
 }

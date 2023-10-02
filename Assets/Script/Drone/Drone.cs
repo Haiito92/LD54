@@ -14,6 +14,8 @@ public class Drone : MonoBehaviour
     private bool _isDroneBasic;
     private bool _isDroneRapid;
 
+    private AudioManager _audioManag;
+
     [SerializeField] private Light2D _droneLight;
     [SerializeField, Tag] private string _droneLightTag;
     [SerializeField] private LightFlickering _lightFlickering;  
@@ -40,6 +42,11 @@ public class Drone : MonoBehaviour
         droneActivationCallback?.Invoke();
         _droneBasicLightCoroutine = DroneBasicLight();
         _droneFlashLightCoroutine = DroneFlashLight();
+    }
+
+    private void Start()
+    {
+        _audioManag = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public void GetPlayerAim(PlayerAim playerAim)
@@ -115,6 +122,16 @@ public class Drone : MonoBehaviour
         {
             StartCoroutine(_droneBasicLightCoroutine);
         }
+    }
+
+    public void SoundPlayIdle()
+    {
+        _audioManag.PlaySFX(_audioManag.DroneIdle);
+    }
+
+    public void SoundPlayMove()
+    {
+        _audioManag.PlaySFX(_audioManag.DroneMove);
     }
 
 }

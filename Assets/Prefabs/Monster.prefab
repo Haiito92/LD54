@@ -241,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
   moveSpeed: 4
+  _playerDie: {fileID: 0}
 --- !u!50 &5902348518100858862
 Rigidbody2D:
   serializedVersion: 4

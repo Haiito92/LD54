@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.05
+  m_Intensity: 0.01
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000eb9c5edf
@@ -1518,6 +1518,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c8ce10d5-01fc-4a40-b33a-3d638c85c8c2
     m_ActionName: Controls/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 90a6dcdf-95f4-4aef-9c1f-d76b12eb92c7
+    m_ActionName: Controls/CallbackDrone[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Controls
@@ -1567,6 +1571,8 @@ MonoBehaviour:
   _dronePrefab: {fileID: 932932873442940146, guid: 4f841174f51e4124ea98a5ef9a3073f5, type: 3}
   _drone: {fileID: 0}
   _isDroneOut: 0
+  _maxNumberOfFlash: 0
+  _numberOfFlash: 0
   _anim: {fileID: 0}
 --- !u!114 &667440836
 MonoBehaviour:
@@ -1757,8 +1763,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95d70ea3e335704193a1df48f74e358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInLight: 1
-  maxTime: 10
+  _actualCheckpoint: {fileID: 0}
+  _previousCheckpoint: {fileID: 0}
 --- !u!114 &667440843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,6 +1880,7 @@ MonoBehaviour:
   _isActivated: 0
   _arrivingPoint: {fileID: 795223597}
   _plateformSpeed: 10
+  _player: {fileID: 0}
 --- !u!1 &795223596
 GameObject:
   m_ObjectHideFlags: 0
@@ -4800,6 +4807,7 @@ GameObject:
   - component: {fileID: 1887920476}
   - component: {fileID: 1887920477}
   - component: {fileID: 1887920478}
+  - component: {fileID: 1887920479}
   m_Layer: 3
   m_Name: Legs
   m_TagString: Untagged
@@ -4895,6 +4903,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1887920479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887920475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b71b0c8072d07b40b976a2a64a4bc67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1924717461
 GameObject:
   m_ObjectHideFlags: 0
@@ -4995,6 +5015,7 @@ MonoBehaviour:
   _isActivated: 0
   _maxEnergyLevel: 100
   _energyLevel: 0
+  _energyToActivate: 0
   _fillValue: 2
   _fillRate: 10
   _activable: {fileID: 712251649}
@@ -6151,6 +6172,63 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1001 &1068071111282294461
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7446421625092447284, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.016395837
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.26430526
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.9249034
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8776416093466181090, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b8b58ed2fa5d00f4d8f3ecbf53996998, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -6167,3 +6245,4 @@ SceneRoots:
   - {fileID: 405408839}
   - {fileID: 554239443}
   - {fileID: 1246740011}
+  - {fileID: 1068071111282294461}

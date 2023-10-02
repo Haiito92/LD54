@@ -62,8 +62,4 @@ public class PlayerController : MonoBehaviour
         _legsAnimator.SetFloat("Speed", movementForce.magnitude);
     }
 
-    public void MonsterSpawn()
-    {
-
-    }
 }
