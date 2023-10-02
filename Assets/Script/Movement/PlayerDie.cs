@@ -7,6 +7,8 @@ public class PlayerDie : MonoBehaviour
     [SerializeField] private GameObject _actualCheckpoint;
     [SerializeField] private GameObject _previousCheckpoint;
 
+    public static bool _isOnPlatform;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Checkpoint")
