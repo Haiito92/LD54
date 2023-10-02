@@ -60,4 +60,9 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce (movementForce);
         _legsAnimator.SetFloat("Speed", movementForce.magnitude);
     }
+
+    public void MonsterSpawn()
+    {
+
+    }
 }
