@@ -3,15 +3,16 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public class Setting : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown _resolutionDropdown;
     private Resolution[] _resolutions;
     [SerializeField] private AudioMixer _myMixer;
-    [SerializeField] private Slider _audioMusic;
-    [SerializeField] private Slider _audioSound;
-    [SerializeField] private Slider _audioGeneral;
+    [SerializeField] private UnityEngine.UI.Slider _audioMusic;
+    [SerializeField] private UnityEngine.UI.Slider _audioSound;
+    [SerializeField] private UnityEngine.UI.Slider _audioMaster;
 
     public void Start()
     {
@@ -37,7 +38,7 @@ public class Setting : MonoBehaviour
         
         if (PlayerPrefs.HasKey("musicVolume"))
         {
-           LoadVolume();
+            LoadVolume();
         }
         else
         {
@@ -60,27 +61,27 @@ public class Setting : MonoBehaviour
     public void SetMusicVolume()
     {
         float volume = _audioMusic.value;
-        _myMixer.SetFloat("music", Mathf.Log10(volume) * 20);
+        _myMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("musicVolume", volume);
     }
     public void SetSFXVolume()
     {
         float volume = _audioSound.value;
-        _myMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+        _myMixer.SetFloat("Sound", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("SFXVolume", volume);
     }
-    public void SetGeneralVolume()
+    public void SetMasterVolume()
     {
-        float volume = _audioGeneral.value;
-        _myMixer.SetFloat("General", Mathf.Log10(volume) * 20);
-        PlayerPrefs.SetFloat("GeneralVolume", volume);
+        float volume = _audioMaster.value;
+        _myMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("MasterVolume", volume);
     }
 
     public void LoadVolume()
     {
         _audioMusic.value = PlayerPrefs.GetFloat("musicVolume");
         _audioSound.value = PlayerPrefs.GetFloat("soundVolume");
-        _audioGeneral.value = PlayerPrefs.GetFloat("generalVolume");
+        _audioMaster.value = PlayerPrefs.GetFloat("MasterVolume");
 
         SetMusicVolume();
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class HudChange : MonoBehaviour
@@ -28,8 +29,15 @@ public class HudChange : MonoBehaviour
     [SerializeField] private bool _isSetting = false;
     [SerializeField] private GameObject _settingScene = null;
     [SerializeField] private string _sceneName;
+    [SerializeField] private AudioManager _audioManager;
 
     // Start is called before the first frame update
+
+
+    private void Awake()
+    {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     void Start()
     {
         this._pauseScene.SetActive(false);
@@ -45,6 +53,8 @@ public class HudChange : MonoBehaviour
         _isWin = false;
         _isLoosed = false;
         _isPaused = false;
+
+        _audioManager.PlayMusic(_audioManager.Background);
     }
 
     // Update is called once per frame
@@ -122,6 +132,7 @@ public class HudChange : MonoBehaviour
         this._pauseScene.SetActive(false);
         this._settingScene.SetActive(true);
         _isSetting = true;
+        _audioManager.PlaySFX(_audioManager.Step);
     }
 
     public void returnOldMenu()
