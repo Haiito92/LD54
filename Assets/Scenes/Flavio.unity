@@ -403,7 +403,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 1ddbc912b1f964844b5e3fe5f55a6119, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 796414c0a300cd3438dc6d76a3f5fe20, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -522,7 +522,7 @@ MonoBehaviour:
   _SFXSources: {fileID: 438628773}
   _background: {fileID: 8300000, guid: 796414c0a300cd3438dc6d76a3f5fe20, type: 3}
   _musicMenu: {fileID: 0}
-  _step: {fileID: 0}
+  _step: {fileID: 8300000, guid: 0693b8b19a35f964a9cc7086054a9741, type: 3}
   _droneIdle: {fileID: 0}
   _droneMove: {fileID: 0}
   _monster: {fileID: 0}
@@ -7268,6 +7268,7 @@ MonoBehaviour:
   _isSetting: 0
   _settingScene: {fileID: 290099000}
   _sceneName: Flavio
+  _audioManager: {fileID: 55057050}
 --- !u!4 &1133684801
 Transform:
   m_ObjectHideFlags: 0
