@@ -894,7 +894,7 @@ MonoBehaviour:
   m_Intensity: 0.36
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000eb9c5edf
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1255,7 +1255,7 @@ MonoBehaviour:
   m_Intensity: 0.05
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 00000000eb9c5edf
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -1540,7 +1540,6 @@ GameObject:
   - component: {fileID: 667440842}
   - component: {fileID: 667440841}
   - component: {fileID: 667440843}
-  - component: {fileID: 667440844}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1773,24 +1772,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monster: {fileID: 7930908383839647442, guid: a79c9960f43f74e478219a1b0d69674c, type: 3}
---- !u!114 &667440844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667440834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98f0ae0dc4a323941ba9d9637a86ea3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 0
-  distanceMax: 4
-  _target: {fileID: 554239441}
-  _target2: {fileID: 1246740009}
-  spawnResult: {x: 0, y: 0, z: 0}
-  test: 0
+  distanceMax: 5
+  _isPlayerSafe: 0
 --- !u!1 &712251646
 GameObject:
   m_ObjectHideFlags: 0

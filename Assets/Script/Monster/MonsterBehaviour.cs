@@ -12,6 +12,7 @@ public class MonsterBehaviour : MonoBehaviour
     private void Start()
     {
         _rb = this.GetComponent<Rigidbody2D>();
+        _target = GameObject.Find("Player").GetComponent<Transform>();
     }
     void Update()
     {
@@ -23,9 +24,12 @@ public class MonsterBehaviour : MonoBehaviour
     {
         MoveMonster(direction);
     }
-    private void MoveMonster(Vector2 direction)
+    private void MoveMonster(Vector3 direction)
     {
-        _rb.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
+        transform.position += (direction * moveSpeed * Time.deltaTime);
+        Vector3 temp = transform.position;
+        temp.z = -1.0f;
+        _rb.MovePosition(temp);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
