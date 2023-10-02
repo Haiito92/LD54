@@ -27,6 +27,9 @@ public class Drone : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private PlayerAim _playerAim;
 
+    public delegate void DroneActivation();
+    public static DroneActivation droneActivationCallback;
+
     #region IEnumeratorsHolders
     private IEnumerator _droneBasicLightCoroutine;
     private IEnumerator _droneFlashLightCoroutine;
@@ -34,6 +37,7 @@ public class Drone : MonoBehaviour
 
     private void Awake()
     {
+        droneActivationCallback?.Invoke();
         _droneBasicLightCoroutine = DroneBasicLight();
         _droneFlashLightCoroutine = DroneFlashLight();
     }
