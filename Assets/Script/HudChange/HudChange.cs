@@ -29,14 +29,14 @@ public class HudChange : MonoBehaviour
     [SerializeField] private bool _isSetting = false;
     [SerializeField] private GameObject _settingScene = null;
     [SerializeField] private string _sceneName;
-    [SerializeField] private AudioManager _audioManager;
+    //[SerializeField] private AudioManager _audioManager;
 
     // Start is called before the first frame update
 
 
     private void Awake()
     {
-        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        //_audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
     void Start()
     {
@@ -54,7 +54,7 @@ public class HudChange : MonoBehaviour
         _isLoosed = false;
         _isPaused = false;
 
-        _audioManager.PlayMusic(_audioManager.Background);
+        // _audioManager.PlayMusic(_audioManager.Background);
     }
 
     // Update is called once per frame
@@ -67,7 +67,6 @@ public class HudChange : MonoBehaviour
             {
                 if (this._isPaused)
                 {
-                    // Debug.Log("pas pause");
                     Time.timeScale = 1f;
                     this._pauseScene.SetActive(false);
                     this._isPaused = false;
@@ -75,7 +74,6 @@ public class HudChange : MonoBehaviour
                 }
                 else
                 {
-                    // Debug.Log("pause");
                     Time.timeScale = 0f;
                     this._pauseScene.SetActive(true);
                     this._isPaused = true;
@@ -131,7 +129,7 @@ public class HudChange : MonoBehaviour
         this._pauseScene.SetActive(false);
         this._settingScene.SetActive(true);
         _isSetting = true;
-        _audioManager.PlaySFX(_audioManager.Step);
+        //_audioManager.PlaySFX(_audioManager.Step);
     }
 
     public void returnOldMenu()
