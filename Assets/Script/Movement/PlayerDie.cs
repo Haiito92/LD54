@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class PlayerDie : MonoBehaviour
 {
-    public bool _isInLight = true;
-    private float counter = 0;
-    [SerializeField] private float maxTime;
+    [SerializeField] private GameObject _actualCheckpoint;
+    [SerializeField] private GameObject _previousCheckpoint;
 
-    private void Update()
+    public static bool _isOnPlatform;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        while (_isInLight == false)
+        if(collision.tag == "Checkpoint")
         {
-            counter += Time.deltaTime;
-            if(counter > maxTime)
+            if(_actualCheckpoint != null)
             {
-                Die();
+                _previousCheckpoint = _actualCheckpoint;
+                _previousCheckpoint.SetActive(true);
             }
+            _actualCheckpoint = collision.gameObject;
+            collision.gameObject.SetActive(false);
         }
     }
+
     public void Die()
     {
-        Destroy(gameObject);
+        transform.position = _actualCheckpoint.transform.position;
     }
-
-
-
 }

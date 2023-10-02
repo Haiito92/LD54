@@ -22,6 +22,10 @@ public class Sensor : MonoBehaviour
                 {
                     StopFillingEnergy();
                     _activable.Deactivate();
+                    if(EnergyLevel >= 100)
+                    {
+                        EnergyLevel = 0;
+                    }
                 }
             }
         }
@@ -32,7 +36,7 @@ public class Sensor : MonoBehaviour
         set 
         { 
             _energyLevel = value; 
-            if (_energyLevel >= 100)
+            if (_energyLevel >= _energyToActivate)
             {
                 _activable.Activate();
             }
@@ -48,6 +52,7 @@ public class Sensor : MonoBehaviour
 
     [SerializeField] private float _maxEnergyLevel = 100;
     [SerializeField] private float _energyLevel = 0;
+    [SerializeField] private float _energyToActivate;
 
 
     [SerializeField] private float _fillValue;

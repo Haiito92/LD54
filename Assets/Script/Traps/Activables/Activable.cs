@@ -7,10 +7,8 @@ public class Activable : MonoBehaviour
 
     public virtual void Activate() 
     {
-        _isActivated = true;
     } 
    public virtual void Deactivate()
    {
-        _isActivated = false;
    }
 }

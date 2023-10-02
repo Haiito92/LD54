@@ -72,7 +72,7 @@ public class Drone : MonoBehaviour
     {
         Debug.Log("BasicLight");
         yield return new WaitForSeconds(_basicLightDuration);
-        DestroyDrone(_droneBasicLightCoroutine);
+        //DestroyDrone(_droneBasicLightCoroutine);
 
     }
 
@@ -82,12 +82,12 @@ public class Drone : MonoBehaviour
 
         FlashLight();
         yield return new WaitForSeconds(_flashLightDuration);
-        DestroyDrone(_droneFlashLightCoroutine);
+        //DestroyDrone(_droneFlashLightCoroutine);
     }
 
-    private void DestroyDrone(IEnumerator coroutine)
+    public void DestroyDrone()
     {
-        StopCoroutine(coroutine);
+        StopAllCoroutines();
         _playerAim.IsDroneOut = false;
         Destroy(gameObject);
     }
@@ -105,6 +105,7 @@ public class Drone : MonoBehaviour
         _droneLight.tag = _droneLightTag;
         _droneLight.pointLightInnerAngle = 360;
         _droneLight.pointLightOuterAngle = 360;
+        _playerAim.CanCallbackDrone = true;
 
         if (_isDroneRapid && !_isDroneBasic)
         {

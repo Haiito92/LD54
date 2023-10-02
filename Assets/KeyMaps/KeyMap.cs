@@ -62,6 +62,15 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CallbackDrone"",
+                    ""type"": ""Button"",
+                    ""id"": ""90a6dcdf-95f4-4aef-9c1f-d76b12eb92c7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""action"": ""RightClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03b1cfc9-2fa6-4af3-8c2b-9eb3d6e21d90"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CallbackDrone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         m_Controls_Movement = m_Controls.FindAction("Movement", throwIfNotFound: true);
         m_Controls_LeftClick = m_Controls.FindAction("LeftClick", throwIfNotFound: true);
         m_Controls_RightClick = m_Controls.FindAction("RightClick", throwIfNotFound: true);
+        m_Controls_CallbackDrone = m_Controls.FindAction("CallbackDrone", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,6 +250,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Movement;
     private readonly InputAction m_Controls_LeftClick;
     private readonly InputAction m_Controls_RightClick;
+    private readonly InputAction m_Controls_CallbackDrone;
     public struct ControlsActions
     {
         private @KeyMap m_Wrapper;
@@ -237,6 +259,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Controls_Movement;
         public InputAction @LeftClick => m_Wrapper.m_Controls_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_Controls_RightClick;
+        public InputAction @CallbackDrone => m_Wrapper.m_Controls_CallbackDrone;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -258,6 +281,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @RightClick.started += instance.OnRightClick;
             @RightClick.performed += instance.OnRightClick;
             @RightClick.canceled += instance.OnRightClick;
+            @CallbackDrone.started += instance.OnCallbackDrone;
+            @CallbackDrone.performed += instance.OnCallbackDrone;
+            @CallbackDrone.canceled += instance.OnCallbackDrone;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -274,6 +300,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @RightClick.started -= instance.OnRightClick;
             @RightClick.performed -= instance.OnRightClick;
             @RightClick.canceled -= instance.OnRightClick;
+            @CallbackDrone.started -= instance.OnCallbackDrone;
+            @CallbackDrone.performed -= instance.OnCallbackDrone;
+            @CallbackDrone.canceled -= instance.OnCallbackDrone;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -297,5 +326,6 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
+        void OnCallbackDrone(InputAction.CallbackContext context);
     }
 }

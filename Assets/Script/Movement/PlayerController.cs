@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate ()
     {
         Vector2 movementForce = MovementVector * _speed;
-        _rb.AddForce (movementForce);
+        _rb.AddForce (movementForce, ForceMode2D.Force);
+        //_rb.velocity = Vector2.ClampMagnitude(_rb.velocity, _speed);
         _legsAnimator.SetFloat("Speed", movementForce.magnitude);
     }
 

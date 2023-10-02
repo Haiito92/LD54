@@ -16,11 +16,9 @@ public class ConveyorBelt : MonoBehaviour
     {
         if(collision.gameObject == _player)
         {
-            //player.GetComponent<PlayerController>().enabled = false;
             _rb = _player.GetComponent<Rigidbody2D>();
         }
     }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject == _player)
@@ -31,8 +29,8 @@ public class ConveyorBelt : MonoBehaviour
             }
             else if (_goDown)
             {
-                _rb.AddForce(-Vector2.up *_conveyorBeltSpeed);
-            }  
+                _rb.AddForce(-Vector2.up * _conveyorBeltSpeed);
+            }
             else if (_goRight)
             {
                 _rb.AddForce(Vector2.right * _conveyorBeltSpeed);
@@ -43,12 +41,4 @@ public class ConveyorBelt : MonoBehaviour
             }
         }
     }
-
-    /*private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject == player)
-        {
-            player.GetComponent<PlayerController>().enabled = true;
-        }
-    }*/
 }
