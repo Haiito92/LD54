@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPlateforms : MonoBehaviour
+public class MovingPlateforms : Activable
 {
-    public bool _isActivated;
+    //public bool _isActivated;
     [SerializeField] private Transform _arrivingPoint;
     [SerializeField] private float _plateformSpeed;
-    private Vector3 _basePosition;
+    private Vector3 _basePosition; 
 
     private void Start()
     {

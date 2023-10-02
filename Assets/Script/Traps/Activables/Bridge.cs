@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bridge : MonoBehaviour
+public class Bridge : Activable
 {
-    public bool _isActivated;
+    //public bool _isActivated;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _sr;
-    
-
 
     // Update is called once per frame
     void Update()
