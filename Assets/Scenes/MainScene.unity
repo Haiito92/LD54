@@ -1573,7 +1573,7 @@ MonoBehaviour:
   _isDroneOut: 0
   _maxNumberOfFlash: 0
   _numberOfFlash: 0
-  _anim: {fileID: 0}
+  _anim: {fileID: 667440841}
 --- !u!114 &667440836
 MonoBehaviour:
   m_ObjectHideFlags: 0

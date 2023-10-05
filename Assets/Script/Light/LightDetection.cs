@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -32,7 +33,8 @@ public class LightDetection : MonoBehaviour
             if (_distance < light.GetComponent<Light2D>().pointLightOuterRadius)
             {
                 _isPlayerSafe = true;
-                foreach(GameObject monster in _monsters)
+                _monsters = GameObject.FindGameObjectsWithTag("Monster");
+                foreach (GameObject monster in _monsters)
                 {
                     Destroy(monster);
                 }
@@ -41,9 +43,9 @@ public class LightDetection : MonoBehaviour
             else
             {
                 _isPlayerSafe = false;
-                if(_monsters.Length == 0)
+                _monsters = GameObject.FindGameObjectsWithTag("Monster");
+                if (_monsters.Length == 0)
                 {
-                    Debug.Log("_monsters.Length");
                     monsterSpawnLocation(_distance, light);
                 }
             }
