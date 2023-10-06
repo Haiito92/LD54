@@ -46,6 +46,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Drone
+    uniqueID: 3160707043
+    locked: 0
   - name: Monster
     uniqueID: 3747519723
     locked: 0

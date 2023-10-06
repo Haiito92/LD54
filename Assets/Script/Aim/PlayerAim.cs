@@ -20,7 +20,9 @@ public class PlayerAim : MonoBehaviour
                 StopCoroutine(_lightGoingOff);
                 _selfLight.gameObject.tag = _selfLightTag;
                 _selfLight.intensity = _selfLightIntensity;
+                _selfLight.pointLightOuterRadius = _selfLightOuterRadius;
                 _anim.SetBool("IsDroneOut", _isDroneOut);
+                _selfLight.GetComponent<LightFlickering>().EnableFlicker();
             }
             else
             {
@@ -59,6 +61,9 @@ public class PlayerAim : MonoBehaviour
     [SerializeField, Range(0, 30)] private float _selfLightOuterRadius;
     [SerializeField] private float _intensityLoss;
     [SerializeField] private float _lossRate;
+    [SerializeField] private float _minIntensity;
+    [SerializeField] private float _radiusLoss;
+    [SerializeField] private float _minRadius;
 
     [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
@@ -154,12 +159,15 @@ public class PlayerAim : MonoBehaviour
 
     private IEnumerator LightGoingOff()
     {
-        while (_selfLight.intensity >= _intensityLoss)
+        _selfLight.GetComponent<LightFlickering>().DisableFlicker();
+        while (_selfLight.intensity > _minIntensity)
         {
             yield return new WaitForSeconds(1 / _lossRate);
-            _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, 0, float.MaxValue);
+            _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, _minIntensity, float.MaxValue);
+            _selfLight.pointLightOuterRadius = Mathf.Clamp(_selfLight.pointLightOuterRadius -= _radiusLoss, _minRadius, float.MaxValue);
         }
-        _selfLight.intensity = 0;
+        _selfLight.intensity = _minIntensity;
+        _selfLight.pointLightOuterRadius = _minRadius;
         _selfLight.gameObject.tag = "Untagged";
         StopLightGoingOff();
     }

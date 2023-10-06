@@ -44,4 +44,14 @@ public class LightFlickering : MonoBehaviour
         _lightFlicker = LightFlicker();
         StartCoroutine(_lightFlicker);
     }
+
+    public void DisableFlicker()
+    {
+        StopCoroutine(_lightFlicker);
+    }
+    public void EnableFlicker()
+    {
+        _lightFlicker = LightFlicker();
+        StartCoroutine(_lightFlicker);
+    }
 }
