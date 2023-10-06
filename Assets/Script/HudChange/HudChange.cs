@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class HudChange : MonoBehaviour
@@ -42,9 +43,8 @@ public class HudChange : MonoBehaviour
     [SerializeField] private bool _isSetting = false;
     [SerializeField] private GameObject _settingScene = null;
     [SerializeField] private string _sceneName;
-    //[SerializeField] private AudioManager _audioManager;
 
-    // Start is called before the first frame update
+    //[SerializeField] private AudioManager _audioManager;
 
     private static HudChange _instance;
     public static HudChange Instance => _instance;
@@ -84,29 +84,6 @@ public class HudChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isStart == false && _isLoosed == false && _isWin == false && _isSetting == false)
-        {
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (this._isPaused)
-                {
-                    Time.timeScale = 1f;
-                    this._pauseScene.SetActive(false);
-                    this._isPaused = false;
-
-                }
-                else
-                {
-                    Time.timeScale = 0f;
-                    this._pauseScene.SetActive(true);
-                    this._isPaused = true;
-
-                }
-            }
-
-        }
-
         if (_isStart == false && _isLoosed == false && _isWin == false && _isPaused == false)
         {
             this._Hud.SetActive(true);
@@ -130,11 +107,43 @@ public class HudChange : MonoBehaviour
         }
     }
 
+    public void OpenMenu(InputAction.CallbackContext ctx)
+    {
+        if (_isStart == false && _isLoosed == false && _isWin == false && _isSetting == false)
+        {
+            if(ctx.started && !this._isPaused)
+            {
+                GameManager.Instance.SwtichActionMap("Menus");
+                Time.timeScale = 0f;
+                this._pauseScene.SetActive(true);
+                this._isPaused = true;
+            }
+            //if (Input.GetKeyDown(KeyCode.Escape))
+        }
+    }
+
+    public void CloseMenu(InputAction.CallbackContext ctx)
+    {
+        if (_isStart == false && _isLoosed == false && _isWin == false && _isSetting == false)
+        {
+            if(ctx.started && this._isPaused)    
+            {
+                GameManager.Instance.SwtichActionMap("Controls");
+                Time.timeScale = 1f;
+                this._pauseScene.SetActive(false);
+                this._isPaused = false;
+
+            }
+            //if (Input.GetKeyDown(KeyCode.Escape))
+        }
+    }
+
     public void StartGame() 
     {
         this._startScene.SetActive(false);
         _isStart = false;
         Time.timeScale = 1f;
+        GameManager.Instance.SwtichActionMap("Controls");
     }
 
     public void ResetCurrentScene()
@@ -178,4 +187,5 @@ public class HudChange : MonoBehaviour
     {
         Application.Quit();
     }
+
 }

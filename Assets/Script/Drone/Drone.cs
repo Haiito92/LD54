@@ -81,6 +81,7 @@ public class Drone : MonoBehaviour
     {
         Debug.Log("BasicLight");
         yield return new WaitForSeconds(_basicLightDuration);
+        _playerAim.CanCallbackDrone = true;
         //DestroyDrone(_droneBasicLightCoroutine);
 
     }
@@ -88,10 +89,16 @@ public class Drone : MonoBehaviour
     private IEnumerator DroneFlashLight()
     {
         Debug.Log("FlashLight");
-
+        _lightFlickering.DisableFlicker();
         FlashLight();
         yield return new WaitForSeconds(_flashLightDuration);
-        //DestroyDrone(_droneFlashLightCoroutine);
+        _lightFlickering.EnableFlicker();
+        DestroyDrone();
+    }
+    private void FlashLight()
+    {
+        _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
+        _droneLight.intensity = _flashLightIntensity;
     }
 
     public void DestroyDrone()
@@ -101,12 +108,6 @@ public class Drone : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void FlashLight()
-    {
-        
-        _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
-        _droneLight.intensity = _flashLightIntensity;
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -114,7 +115,8 @@ public class Drone : MonoBehaviour
         _droneLight.tag = _droneLightTag;
         _droneLight.pointLightInnerAngle = 360;
         _droneLight.pointLightOuterAngle = 360;
-        _playerAim.CanCallbackDrone = true;
+
+        //_playerAim.CanCallbackDrone = true;
 
         if (_isDroneRapid && !_isDroneBasic)
         {

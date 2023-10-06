@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 200
-  _rapidSpeed: 1000
+  _rapidSpeed: 800
   _droneLight: {fileID: 8402843816308411434}
   _droneLightTag: Lights
   _lightFlickering: {fileID: 3722202021146769571}
@@ -174,7 +174,7 @@ MonoBehaviour:
   _flashLightIntensity: 1
   _flashLightOuterRadius: 14
   _basicLightDuration: 3
-  _flashLightDuration: 0.8
+  _flashLightDuration: 2
   _rb: {fileID: 2478013984177094762}
   _playerAim: {fileID: 0}
 --- !u!95 &7348749302569889029

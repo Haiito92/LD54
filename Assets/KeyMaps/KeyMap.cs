@@ -71,6 +71,15 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ff0d2b7-cede-4354-a402-9e02e5266cd5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,45 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
                     ""action"": ""CallbackDrone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2b0b5e9-f747-4e39-bd3e-4620294195eb"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menus"",
+            ""id"": ""022bdd37-4c94-475d-a2ed-ebd88cfa5d40"",
+            ""actions"": [
+                {
+                    ""name"": ""CloseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""054a6ca9-4e76-4f0d-aac9-c245cc4925fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4706a044-f05c-4725-b77a-644f4f1ed7d6"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +233,10 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         m_Controls_LeftClick = m_Controls.FindAction("LeftClick", throwIfNotFound: true);
         m_Controls_RightClick = m_Controls.FindAction("RightClick", throwIfNotFound: true);
         m_Controls_CallbackDrone = m_Controls.FindAction("CallbackDrone", throwIfNotFound: true);
+        m_Controls_OpenMenu = m_Controls.FindAction("OpenMenu", throwIfNotFound: true);
+        // Menus
+        m_Menus = asset.FindActionMap("Menus", throwIfNotFound: true);
+        m_Menus_CloseMenu = m_Menus.FindAction("CloseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -251,6 +303,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_LeftClick;
     private readonly InputAction m_Controls_RightClick;
     private readonly InputAction m_Controls_CallbackDrone;
+    private readonly InputAction m_Controls_OpenMenu;
     public struct ControlsActions
     {
         private @KeyMap m_Wrapper;
@@ -260,6 +313,7 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         public InputAction @LeftClick => m_Wrapper.m_Controls_LeftClick;
         public InputAction @RightClick => m_Wrapper.m_Controls_RightClick;
         public InputAction @CallbackDrone => m_Wrapper.m_Controls_CallbackDrone;
+        public InputAction @OpenMenu => m_Wrapper.m_Controls_OpenMenu;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -284,6 +338,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @CallbackDrone.started += instance.OnCallbackDrone;
             @CallbackDrone.performed += instance.OnCallbackDrone;
             @CallbackDrone.canceled += instance.OnCallbackDrone;
+            @OpenMenu.started += instance.OnOpenMenu;
+            @OpenMenu.performed += instance.OnOpenMenu;
+            @OpenMenu.canceled += instance.OnOpenMenu;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -303,6 +360,9 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
             @CallbackDrone.started -= instance.OnCallbackDrone;
             @CallbackDrone.performed -= instance.OnCallbackDrone;
             @CallbackDrone.canceled -= instance.OnCallbackDrone;
+            @OpenMenu.started -= instance.OnOpenMenu;
+            @OpenMenu.performed -= instance.OnOpenMenu;
+            @OpenMenu.canceled -= instance.OnOpenMenu;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -320,6 +380,52 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         }
     }
     public ControlsActions @Controls => new ControlsActions(this);
+
+    // Menus
+    private readonly InputActionMap m_Menus;
+    private List<IMenusActions> m_MenusActionsCallbackInterfaces = new List<IMenusActions>();
+    private readonly InputAction m_Menus_CloseMenu;
+    public struct MenusActions
+    {
+        private @KeyMap m_Wrapper;
+        public MenusActions(@KeyMap wrapper) { m_Wrapper = wrapper; }
+        public InputAction @CloseMenu => m_Wrapper.m_Menus_CloseMenu;
+        public InputActionMap Get() { return m_Wrapper.m_Menus; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenusActions set) { return set.Get(); }
+        public void AddCallbacks(IMenusActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenusActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenusActionsCallbackInterfaces.Add(instance);
+            @CloseMenu.started += instance.OnCloseMenu;
+            @CloseMenu.performed += instance.OnCloseMenu;
+            @CloseMenu.canceled += instance.OnCloseMenu;
+        }
+
+        private void UnregisterCallbacks(IMenusActions instance)
+        {
+            @CloseMenu.started -= instance.OnCloseMenu;
+            @CloseMenu.performed -= instance.OnCloseMenu;
+            @CloseMenu.canceled -= instance.OnCloseMenu;
+        }
+
+        public void RemoveCallbacks(IMenusActions instance)
+        {
+            if (m_Wrapper.m_MenusActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMenusActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenusActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenusActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MenusActions @Menus => new MenusActions(this);
     public interface IControlsActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
@@ -327,5 +433,10 @@ public partial class @KeyMap: IInputActionCollection2, IDisposable
         void OnLeftClick(InputAction.CallbackContext context);
         void OnRightClick(InputAction.CallbackContext context);
         void OnCallbackDrone(InputAction.CallbackContext context);
+        void OnOpenMenu(InputAction.CallbackContext context);
+    }
+    public interface IMenusActions
+    {
+        void OnCloseMenu(InputAction.CallbackContext context);
     }
 }
