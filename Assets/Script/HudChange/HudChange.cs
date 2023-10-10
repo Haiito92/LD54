@@ -12,12 +12,30 @@ public class HudChange : MonoBehaviour
     public bool IsWin
     {
         get { return _isWin; }
-        set { _isWin = value; }
+        set 
+        { 
+            _isWin = value;
+            if (_isWin)
+            {
+                GameManager.Instance.SwtichActionMap("Menus");
+                this._winScene.SetActive(true);
+                Time.timeScale = 0f;
+            }
+        }
     }
     public bool IsLoose
     {
         get { return _isLoosed; }
-        set { _isLoosed = value; }
+        set 
+        { 
+            _isLoosed = value;
+            if (_isLoosed)
+            {
+                GameManager.Instance.SwtichActionMap("Menus");
+                this._looseScene.SetActive(true);
+                Time.timeScale = 0f;
+            }
+        }
     }
 
     public TextMeshProUGUI NbFlashText 
@@ -94,17 +112,17 @@ public class HudChange : MonoBehaviour
             _isHudOn = false;
         }
 
-        if (_isLoosed == true)
-        {
-            this._looseScene.SetActive(true);
-            Time.timeScale = 0f;
-        }
+        //if (_isLoosed == true)
+        //{
+        //    this._looseScene.SetActive(true);
+        //    Time.timeScale = 0f;
+        //}
 
-        if (_isWin == true)
-        {
-            this._winScene.SetActive(true);
-            Time.timeScale = 0f;
-        }
+        //if (_isWin == true)
+        //{
+        //    this._winScene.SetActive(true);
+        //    Time.timeScale = 0f;
+        //}
     }
 
     public void OpenMenu(InputAction.CallbackContext ctx)

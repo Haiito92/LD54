@@ -6,6 +6,8 @@ public class PlayerDie : MonoBehaviour
 {
     [SerializeField] private GameObject _actualCheckpoint;
     [SerializeField] private GameObject _previousCheckpoint;
+    [SerializeField] private int _numberOfLives = 3;
+    [SerializeField] private HudChange _hudChange;
 
     public static bool _isOnPlatform;
 
@@ -25,6 +27,14 @@ public class PlayerDie : MonoBehaviour
 
     public void Die()
     {
-        transform.position = _actualCheckpoint.transform.position;
+        _numberOfLives--;
+        if (_numberOfLives == 0)
+        {
+            _hudChange.IsLoose = true;
+        }
+        else
+        {
+            transform.position = _actualCheckpoint.transform.position;
+        }
     }
 }
