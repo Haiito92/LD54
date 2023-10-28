@@ -10,14 +10,24 @@ public class ConveyorBelt : MonoBehaviour
     [SerializeField] private bool _goDown;
     [SerializeField] private bool _goRight;
     [SerializeField] private bool _goLeft;
+
+    private float _normalSpeed;
+
     private Rigidbody2D _rb;
+    private PlayerController _playerController;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject == _player)
         {
             _rb = _player.GetComponent<Rigidbody2D>();
+            _playerController = _player.GetComponent<PlayerController>();
+            _normalSpeed = _playerController.XSpeed;
+
         }
+
+
+
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -25,20 +35,81 @@ public class ConveyorBelt : MonoBehaviour
         {
             if (_goUp)
             {
-                _rb.AddForce(Vector2.up * _conveyorBeltSpeed);
+                if(_rb.velocity.y > 0)
+                {
+                    _playerController.YSpeed = _normalSpeed * 1.5f;
+                }else if(_rb.velocity.y < 0)
+                {
+                    _playerController.YSpeed = _normalSpeed / 2f;
+                }
+                else if(_rb.velocity.y == 0)
+                {
+                    _playerController.YSpeed = _normalSpeed / 2f;
+                    _playerController.MovementVector = new Vector2(_playerController.MovementVector.x, 1);
+                }
+                
+                //_rb.AddForce(Vector2.up * _conveyorBeltSpeed);
             }
             else if (_goDown)
             {
-                _rb.AddForce(-Vector2.up * _conveyorBeltSpeed);
+                if (_rb.velocity.y < 0)
+                {
+                    _playerController.YSpeed = _normalSpeed * 1.5f;
+                }
+                else if (_rb.velocity.y > 0)
+                {
+                    _playerController.YSpeed = _normalSpeed / 2f;
+                }
+                else if (_rb.velocity.y == 0)
+                {
+                    _playerController.YSpeed = _normalSpeed / 2f;
+                    _playerController.MovementVector = new Vector2(_playerController.MovementVector.x, -1);
+                }
+                
+                //_rb.AddForce(-Vector2.up * _conveyorBeltSpeed);
             }
             else if (_goRight)
             {
-                _rb.AddForce(Vector2.right * _conveyorBeltSpeed);
+                if (_rb.velocity.x > 0)
+                {
+                    _playerController.XSpeed = _normalSpeed * 1.5f;
+                }
+                else if (_rb.velocity.x < 0)
+                {
+                    _playerController.XSpeed = _normalSpeed / 2f;
+                }
+                else if (_rb.velocity.x == 0)
+                {
+                    _playerController.XSpeed = _normalSpeed / 2f;
+                    _playerController.MovementVector = new Vector2(1, _playerController.MovementVector.y);
+                }
+
+                //_rb.AddForce(Vector2.right * _conveyorBeltSpeed);
             }
             else if (_goLeft)
             {
-                _rb.AddForce(-Vector2.right * _conveyorBeltSpeed);
+                if (_rb.velocity.x < 0)
+                {
+                    _playerController.XSpeed = _normalSpeed * 1.5f;
+                }
+                else if (_rb.velocity.x > 0)
+                {
+                    _playerController.XSpeed = _normalSpeed / 2f;
+                }
+                else if (_rb.velocity.x == 0)
+                {
+                    _playerController.XSpeed = _normalSpeed / 2f;
+                    _playerController.MovementVector = new Vector2(-1, _playerController.MovementVector.y);
+                }
+                //_rb.AddForce(-Vector2.right * _conveyorBeltSpeed);
             }
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _playerController.XSpeed = _normalSpeed;
+        _playerController.YSpeed = _normalSpeed;
+        _rb.velocity = Vector2.zero;
     }
 }
