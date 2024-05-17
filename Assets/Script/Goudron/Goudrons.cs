@@ -13,7 +13,7 @@ public class Goudrons : MonoBehaviour
 
     void Start()
     {
-        _normalSpeed = _playerController.Speed;
+        _normalSpeed = _playerController.XSpeed;
         if (_slow <= 0)
         {
             Debug.LogWarning("Slow value must be positive");
@@ -24,7 +24,8 @@ public class Goudrons : MonoBehaviour
     {
         if (collision.tag == _playerTag)
         {
-            _playerController.Speed = _playerController.Speed / _slow;
+            _playerController.XSpeed = _playerController.XSpeed / _slow;
+            _playerController.YSpeed = _playerController.YSpeed / _slow;
         }
     }
 
@@ -32,7 +33,8 @@ public class Goudrons : MonoBehaviour
     {
         if (collision.tag == _playerTag)
         {
-            _playerController.Speed = _normalSpeed;
+            _playerController.XSpeed = _normalSpeed;
+            _playerController.YSpeed = _normalSpeed;
         }
     }
 }

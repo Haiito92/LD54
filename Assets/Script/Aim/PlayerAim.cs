@@ -20,12 +20,30 @@ public class PlayerAim : MonoBehaviour
                 StopCoroutine(_lightGoingOff);
                 _selfLight.gameObject.tag = _selfLightTag;
                 _selfLight.intensity = _selfLightIntensity;
+                _selfLight.pointLightOuterRadius = _selfLightOuterRadius;
                 _anim.SetBool("IsDroneOut", _isDroneOut);
+                _selfLight.GetComponent<LightFlickering>().EnableFlicker();
             }
             else
             {
                 _anim.SetBool("IsDroneOut", _isDroneOut);
             }
+        }
+    }
+
+    public bool CanCallbackDrone
+    {
+        get { return _canCallbackDrone; }
+        set { _canCallbackDrone = value; }
+    }
+
+    public int NumberOfFlash
+    {
+        get { return _numberOfFlash; }
+        set 
+        { 
+            _numberOfFlash = value;
+            HudChange.Instance.NbFlashText.text = _numberOfFlash.ToString();
         }
     }
     #endregion
@@ -43,15 +61,23 @@ public class PlayerAim : MonoBehaviour
     [SerializeField, Range(0, 30)] private float _selfLightOuterRadius;
     [SerializeField] private float _intensityLoss;
     [SerializeField] private float _lossRate;
+    [SerializeField] private float _minIntensity;
+    [SerializeField] private float _radiusLoss;
+    [SerializeField] private float _minRadius;
 
     [SerializeField] private GameObject _dronePrefab;
     [SerializeField] private Drone _drone;
     [SerializeField] private bool _isDroneOut;
+    private bool _canCallbackDrone;
+
+    [SerializeField] private int _maxNumberOfFlash;
+    [SerializeField] private int _numberOfFlash;
 
     [SerializeField] private Animator _anim;
 
     private void Awake()
     {
+        NumberOfFlash = _maxNumberOfFlash;
         _selfLight= GetComponentInChildren<Light2D>();
         _anim = GetComponent<Animator>();
     }
@@ -106,12 +132,22 @@ public class PlayerAim : MonoBehaviour
     {
         if (ctx.started)
         {
-            if(_isDroneOut == false)
+            if(_isDroneOut == false && _numberOfFlash > 0)
             {
                 Vector2 mouseWorldPos = InitLaunch();
                 StartLightGoingOff();
                 _drone.RapidMove(mouseWorldPos, transform.rotation);
+                NumberOfFlash -= 1;
             }
+        }
+    }
+
+    public void CallBackDrone(InputAction.CallbackContext ctx)
+    {
+        if(ctx.started && _canCallbackDrone)
+        {
+            _drone.DestroyDrone();
+            _canCallbackDrone = false;
         }
     }
 
@@ -123,12 +159,15 @@ public class PlayerAim : MonoBehaviour
 
     private IEnumerator LightGoingOff()
     {
-        while (_selfLight.intensity >= _intensityLoss)
+        _selfLight.GetComponent<LightFlickering>().DisableFlicker();
+        while (_selfLight.intensity > _minIntensity)
         {
             yield return new WaitForSeconds(1 / _lossRate);
-            _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, 0, float.MaxValue);
+            _selfLight.intensity = Mathf.Clamp(_selfLight.intensity -= _intensityLoss, _minIntensity, float.MaxValue);
+            _selfLight.pointLightOuterRadius = Mathf.Clamp(_selfLight.pointLightOuterRadius -= _radiusLoss, _minRadius, float.MaxValue);
         }
-        _selfLight.intensity = 0;
+        _selfLight.intensity = _minIntensity;
+        _selfLight.pointLightOuterRadius = _minRadius;
         _selfLight.gameObject.tag = "Untagged";
         StopLightGoingOff();
     }

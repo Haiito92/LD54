@@ -8,7 +8,7 @@ public class Holes : MonoBehaviour
     GameObject player;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject == player)
+        if(collision.gameObject == player && !PlayerDie._isOnPlatform)
         {
             PlayerDie playerDieFonction = player.GetComponent<PlayerDie>();
             playerDieFonction.Die();

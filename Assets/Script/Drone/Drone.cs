@@ -14,6 +14,10 @@ public class Drone : MonoBehaviour
     private bool _isDroneBasic;
     private bool _isDroneRapid;
 
+    private bool _audioSwitch = true;
+
+    private AudioManager _audioManag;
+
     [SerializeField] private Light2D _droneLight;
     [SerializeField, Tag] private string _droneLightTag;
     [SerializeField] private LightFlickering _lightFlickering;  
@@ -27,6 +31,9 @@ public class Drone : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private PlayerAim _playerAim;
 
+    public delegate void DroneActivation();
+    public static DroneActivation droneActivationCallback;
+
     #region IEnumeratorsHolders
     private IEnumerator _droneBasicLightCoroutine;
     private IEnumerator _droneFlashLightCoroutine;
@@ -34,8 +41,14 @@ public class Drone : MonoBehaviour
 
     private void Awake()
     {
+        droneActivationCallback?.Invoke();
         _droneBasicLightCoroutine = DroneBasicLight();
         _droneFlashLightCoroutine = DroneFlashLight();
+    }
+
+    private void Start()
+    {
+        _audioManag = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     public void GetPlayerAim(PlayerAim playerAim)
@@ -68,32 +81,33 @@ public class Drone : MonoBehaviour
     {
         Debug.Log("BasicLight");
         yield return new WaitForSeconds(_basicLightDuration);
-        DestroyDrone(_droneBasicLightCoroutine);
+        _playerAim.CanCallbackDrone = true;
+        //DestroyDrone(_droneBasicLightCoroutine);
 
     }
 
     private IEnumerator DroneFlashLight()
     {
         Debug.Log("FlashLight");
-
+        _lightFlickering.DisableFlicker();
         FlashLight();
         yield return new WaitForSeconds(_flashLightDuration);
-        DestroyDrone(_droneFlashLightCoroutine);
+        _lightFlickering.EnableFlicker();
+        DestroyDrone();
+    }
+    private void FlashLight()
+    {
+        _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
+        _droneLight.intensity = _flashLightIntensity;
     }
 
-    private void DestroyDrone(IEnumerator coroutine)
+    public void DestroyDrone()
     {
-        StopCoroutine(coroutine);
+        StopAllCoroutines();
         _playerAim.IsDroneOut = false;
         Destroy(gameObject);
     }
 
-    private void FlashLight()
-    {
-        
-        _droneLight.pointLightOuterRadius = _flashLightOuterRadius;
-        _droneLight.intensity = _flashLightIntensity;
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -101,6 +115,8 @@ public class Drone : MonoBehaviour
         _droneLight.tag = _droneLightTag;
         _droneLight.pointLightInnerAngle = 360;
         _droneLight.pointLightOuterAngle = 360;
+
+        //_playerAim.CanCallbackDrone = true;
 
         if (_isDroneRapid && !_isDroneBasic)
         {
@@ -110,6 +126,33 @@ public class Drone : MonoBehaviour
         {
             StartCoroutine(_droneBasicLightCoroutine);
         }
+    }
+
+    public void SoundPlayIdle()
+    {
+        _audioManag.PlaySFX(_audioManag.DroneIdle);
+    }
+
+    public void SoundPlayMain()
+    {
+        if (_audioSwitch)
+        {
+            _audioManag.PlaySFX(_audioManag.DroneIdle);
+            _audioSwitch = false;
+            StartCoroutine(AudioSwitchDroneBehaviour());
+
+        }
+    }
+
+    IEnumerator AudioSwitchDroneBehaviour()
+    {
+        yield return new WaitForSeconds(4.0f);
+        _audioSwitch = true;
+    }
+
+    public void SoundPlayMove()
+    {
+        _audioManag.PlaySFX(_audioManag.DroneMove);
     }
 
 }
